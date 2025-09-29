@@ -18,7 +18,7 @@ axios.get(`https://kcc-back.onrender.com/api/cars/${id}`)
   .then(res => setCar(res.data))
   .catch(err => console.error(err));
 
-  }, [carId]);
+  }, [id]);
 
   const handlePrevImage = () => {
     if (!car) return;
