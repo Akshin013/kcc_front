@@ -24,7 +24,7 @@ const Favorites = () => {
 
   const fetchFavorites = async (userId) => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/favorites/${userId}`);
+      const res = await axios.get(`https://kcc-back.onrender.com/api/favorites/${userId}`);
       const favCars = Array.isArray(res.data) ? res.data.filter(fav => fav && fav.carId) : [];
       setFavorites(favCars);
 
@@ -57,7 +57,7 @@ const Favorites = () => {
 
   const removeFromFavorites = async (favoriteId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/favorites/${favoriteId}`);
+      await axios.delete(`https://kcc-back.onrender.com/api/favorites/${favoriteId}`);
       setFavorites(prev => prev.filter(fav => fav._id !== favoriteId));
     } catch (err) {
       console.error('Ошибка при удалении из избранного:', err.response?.data || err.message);
