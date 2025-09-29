@@ -14,9 +14,10 @@ const CarDetail = () => {
 
   useEffect(() => {
     if (!carId) return;
-    axios.get(`https://kcc-back.onrender.com/api/cars/${carId}`)
-      .then(res => setCar(res.data))
-      .catch(err => console.error(err));
+axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/cars/${carId}`)
+  .then(res => setCar(res.data))
+  .catch(err => console.error(err));
+
   }, [carId]);
 
   const handlePrevImage = () => {
