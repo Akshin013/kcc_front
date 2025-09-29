@@ -34,7 +34,7 @@ const Main = () => {
 
   const fetchCars = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/cars');
+      const res = await axios.get('https://kcc-back.onrender.com/api/cars');
       const sorted = res.data.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
       setCars(sorted);
       setFilteredCars(sorted);
@@ -52,7 +52,7 @@ const Main = () => {
 
   const fetchFavorites = async (userId) => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/favorites/${userId}`);
+      const res = await axios.get(`https://kcc-back.onrender.com/api/favorites/${userId}`);
       const favoriteCarIds = res.data
         .map(fav => (fav.carId && fav.carId._id ? fav.carId._id : fav.carId))
         .filter(id => id); // убираем null/undefined
@@ -68,7 +68,7 @@ const toggleFavorite = async (carId) => {
   if (favorites.includes(carId)) {
     // Уже в избранном → удаляем
     try {
-      const favRes = await axios.get(`http://localhost:5000/api/favorites/${userId}`);
+      const favRes = await axios.get(`https://kcc-back.onrender.com/api/favorites/${userId}`);
       if (!Array.isArray(favRes.data)) return;
 
       // ищем объект избранного для этой машины
@@ -78,7 +78,7 @@ const toggleFavorite = async (carId) => {
         return;
       }
 
-      await axios.delete(`http://localhost:5000/api/favorites/${favItem._id}`);
+      await axios.delete(`https://kcc-back.onrender.com/api/favorites/${favItem._id}`);
       setFavorites(prev => prev.filter(id => id !== carId));
     } catch (err) {
       console.error("Ошибка при удалении из избранного:", err.response?.data || err.message);
@@ -86,7 +86,7 @@ const toggleFavorite = async (carId) => {
   } else {
     // Добавляем в избранное
     try {
-      await axios.post("http://localhost:5000/api/favorites", { userId, carId });
+      await axios.post("https://kcc-back.onrender.com/api/favorites", { userId, carId });
       setFavorites(prev => [...prev, carId]);
     } catch (err) {
       console.error("Ошибка добавления в избранное:", err.response?.data || err.message);
