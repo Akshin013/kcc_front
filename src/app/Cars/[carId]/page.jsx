@@ -14,7 +14,7 @@ const CarDetail = () => {
 
   useEffect(() => {
     if (!carId) return;
-    axios.get(`http://localhost:5000/api/cars/${carId}`)
+    axios.get(`https://kcc-back.onrender.com/api/cars/${carId}`)
       .then(res => setCar(res.data))
       .catch(err => console.error(err));
   }, [carId]);
