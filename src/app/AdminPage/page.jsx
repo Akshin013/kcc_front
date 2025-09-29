@@ -33,7 +33,7 @@ const AdminPage = () => {
   // Получение машин
   const fetchCars = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/cars');
+      const res = await axios.get('https://kcc-back.onrender.com/api/cars');
       const sorted = res.data.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
       setCars(sorted);
     } catch (err) {
@@ -71,8 +71,8 @@ const AdminPage = () => {
       }
 
       const url = editingCarId
-        ? `http://localhost:5000/api/cars/${editingCarId}`
-        : "http://localhost:5000/api/cars";
+        ? `https://kcc-back.onrender.com/api/cars/${editingCarId}`
+        : "https://kcc-back.onrender.com/api/cars";
 
       const method = editingCarId ? "put" : "post";
 
@@ -110,7 +110,7 @@ const AdminPage = () => {
   const handleDeleteCar = async (id) => {
     if (!confirm('Вы уверены, что хотите удалить эту машину?')) return;
     try {
-      await axios.delete(`http://localhost:5000/api/cars/${id}`);
+      await axios.delete(`https://kcc-back.onrender.com/api/cars/${id}`);
       fetchCars();
     } catch (err) {
       console.error('Ошибка при удалении:', err);
@@ -158,7 +158,7 @@ const handleSearch = () => {
         />
         <button 
           onClick={handleLogin}
-          className="bg-blue-500 text-white px-4 py-2 w-full rounded-lg"
+          className="bg-blue-500 text-white px-4 py-2 w-full rounded-lg cursor-pointer"
         >
           Войти
         </button>
@@ -314,7 +314,7 @@ const handleSearch = () => {
         checked={car.sold}
         onChange={async e => {
           try {
-            await axios.patch(`http://localhost:5000/api/cars/${car._id}/sold`, { sold: e.target.checked });
+            await axios.patch(`https://kcc-back.onrender.com/api/cars/${car._id}/sold`, { sold: e.target.checked });
             fetchCars();
           } catch (err) {
             console.error('Ошибка обновления статуса продано:', err);
