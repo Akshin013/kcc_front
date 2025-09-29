@@ -3,10 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import axios from 'axios';
 import { FaWhatsapp } from "react-icons/fa";
-export async function generateStaticParams() {
-  // пока что пусто → значит вообще ничего не генерим
-  return [];
-}
 
 const CarDetail = () => {
   const { carId } = useParams();
