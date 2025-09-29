@@ -1,10 +1,9 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {// важно! экспортируем статику
+const nextConfig = {
   images: {
-    unoptimized: true, // чтобы работало на GH Pages
+    unoptimized: true, // можно оставить
   },
-  basePath: "/kcc-company", // вместо REPO_NAME — имя репозитория
-  assetPrefix: "/kcc-company/",
+  // убираем basePath и assetPrefix для Vercel
 };
 
 export default nextConfig;
