@@ -5,7 +5,7 @@ import axios from 'axios';
 import { FaWhatsapp } from "react-icons/fa";
 
 const CarDetail = () => {
-  const { carId } = useParams();
+  const { id } = useParams();
   const [car, setCar] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
@@ -13,8 +13,8 @@ const CarDetail = () => {
   const whatsappNumber = '+79658926701';
 
   useEffect(() => {
-    if (!carId) return;
-axios.get(`https://kcc-back.onrender.com/api/cars/${carId}`)
+    if (!id) return;
+axios.get(`https://kcc-back.onrender.com/api/cars/${id}`)
   .then(res => setCar(res.data))
   .catch(err => console.error(err));
 
