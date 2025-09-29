@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  output: "export", // важно! экспортируем статику
+const nextConfig = {// важно! экспортируем статику
   images: {
     unoptimized: true, // чтобы работало на GH Pages
   },
