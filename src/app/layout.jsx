@@ -22,7 +22,7 @@ import Link from "next/link";
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="bg-[#333333]">
+      <body className="bg-[#333333] lg:px-48">
         <Header/>
         {children}
         <Navbar/>
