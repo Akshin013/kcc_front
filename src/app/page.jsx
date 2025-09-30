@@ -15,7 +15,8 @@ const Main = () => {
   const [yearFilter, setYearFilter] = useState("");
   const [dateFilter, setDateFilter] = useState("all");
   const [carImagesIndex, setCarImagesIndex] = useState({});
-  const whatsappNumber = '+79658926701';
+  // const whatsappNumber = '+79658926701';
+  const whatsappNumber = '+994553801105';
 
   useEffect(() => {
     let userId = localStorage.getItem("userId");
@@ -142,25 +143,26 @@ const Main = () => {
           className="border border-gray-400 rounded-lg p-2 flex-1"
         />
         <div className='flex justify-between gap-3'>
-          <select
-            value={yearFilter}
-            onChange={e => setYearFilter(e.target.value)}
-            className="border border-gray-400 rounded-lg p-2 w-1/2"
-          >
-            <option value="">Bütün illər</option>
-            {years.map(year => <option key={year} value={year}>{year}</option>)}
-          </select>
+        <select
+          value={yearFilter}
+          onChange={e => setYearFilter(e.target.value)}
+          className="border border-gray-400 rounded-lg p-2 w-1/2 bg-[#333333] text-white"
+        >
+          <option value="">Bütün illər</option>
+          {years.map(year => <option key={year} value={year}>{year}</option>)}
+        </select>
+          
+        <select
+          value={dateFilter}
+          onChange={e => setDateFilter(e.target.value)}
+          className="border border-gray-400 rounded-lg p-2 w-1/2 bg-[#333333] text-white"
+        >
+          <option value="all">Hamısı</option>
+          <option value="today">Bügün</option>
+          <option value="week">Bu həftə</option>
+          <option value="month">Bu ay</option>
+        </select>
 
-          <select
-            value={dateFilter}
-            onChange={e => setDateFilter(e.target.value)}
-            className="border border-gray-400 rounded-lg p-2 w-1/2"
-          >
-            <option value="all">Hamısı</option>
-            <option value="today">Bügün</option>
-            <option value="week">Bu həftə</option>
-            <option value="month">Bu ay</option>
-          </select>
         </div>
       </div>
 
