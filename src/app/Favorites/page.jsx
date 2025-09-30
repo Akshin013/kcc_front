@@ -9,7 +9,7 @@ const Favorites = () => {
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
   const [carImagesIndex, setCarImagesIndex] = useState({});
-  const whatsappNumber = '+79658926701';
+  const whatsappNumber = '+994553801105';
 
   useEffect(() => {
     let userId = localStorage.getItem('userId');
