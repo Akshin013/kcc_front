@@ -164,7 +164,7 @@ const Main = () => {
         </div>
       </div>
 
-      <div className="grid mb-20 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+      <div className="grid mb-48 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
         {filteredByDate.map(car => {
           const message = `Salam! Mən bu maşınla maraqlanıram: ${car.marka} ${car.model}, İl: ${car.il}, Qiymət: ${car.qiymet}$ (Car ID: ${car.carId})`;
           const whatsappLink = `https://wa.me/${whatsappNumber.replace('+','')}/?text=${encodeURIComponent(message)}`;
