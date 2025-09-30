@@ -5,16 +5,51 @@ import axios from 'axios';
 import { FaWhatsapp } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
 import Link from 'next/link';
+import { IoIosHeart } from "react-icons/io";
 
 const CarDetail = () => {
   const { carId } = useParams();
   const [car, setCar] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [favorites, setFavorites] = useState([]);
   const whatsappNumber = '+79658926701';
 
-  useEffect(() => {
-    if (!carId) return;
+  const fetchFavorites = async (userId) => {
+    try {
+      const res = await axios.get(`https://kcc-back.onrender.com/api/favorites/${userId}`);
+      const favoriteCarIds = res.data
+        .map(fav => (fav.carId && fav.carId._id ? fav.carId._id : fav.carId))
+        .filter(id => id);
+      setFavorites(favoriteCarIds);
+    } catch (err) {
+      console.error("Ошибка при получении избранного:", err);
+    }
+  };
 
+  const removeFromFavorites = async (carId) => {
+    const userId = localStorage.getItem("userId");
+    try {
+      const favRes = await axios.get(`https://kcc-back.onrender.com/api/favorites/${userId}`);
+      const favItem = favRes.data.find(f => f.carId?._id === carId);
+      if (!favItem) return;
+      await axios.delete(`https://kcc-back.onrender.com/api/favorites/${favItem._id}`);
+      setFavorites(prev => prev.filter(id => id !== carId));
+    } catch (err) {
+      console.error("Ошибка при удалении из избранного:", err.response?.data || err.message);
+    }
+  };
+
+  useEffect(() => {
+    const userId = localStorage.getItem("userId");
+    if (!userId) {
+      const newId = crypto.randomUUID();
+      localStorage.setItem("userId", newId);
+      fetchFavorites(newId);
+    } else {
+      fetchFavorites(userId);
+    }
+
+    if (!carId) return;
     axios.get(`https://kcc-back.onrender.com/api/cars/${carId}`)
       .then(res => setCar(res.data))
       .catch(err => console.error(err));
@@ -22,21 +57,15 @@ const CarDetail = () => {
 
   if (!car) return <div className="p-4 text-white">Загрузка...</div>;
 
-  // объединяем видео + изображения для общей галереи
   const gallery = [
     ...(car.videos || []).map(src => ({ type: 'video', src })),
     ...(car.images || []).map(src => ({ type: 'image', src }))
   ];
 
-  const handlePrev = () => {
-    setCurrentIndex(prev => (prev - 1 + gallery.length) % gallery.length);
-  };
-
-  const handleNext = () => {
-    setCurrentIndex(prev => (prev + 1) % gallery.length);
-  };
-
+  const handlePrev = () => setCurrentIndex(prev => (prev - 1 + gallery.length) % gallery.length);
+  const handleNext = () => setCurrentIndex(prev => (prev + 1) % gallery.length);
   const current = gallery[currentIndex];
+  const isFavorite = favorites.includes(car._id);
 
   const message = `Salam! Mən bu maşınla maraqlanıram: ${car.marka} ${car.model}, İl: ${car.il}, Qiymət: ${car.qiymet}$ (Car ID: ${car.carId})`;
   const whatsappLink = `https://wa.me/${whatsappNumber.replace('+','')}/?text=${encodeURIComponent(message)}`;
@@ -52,36 +81,19 @@ const CarDetail = () => {
       <div className="max-w-4xl mx-auto border border-gray-500 bg-[#545454] rounded-lg shadow-lg p-4">
         <h1 className="text-2xl font-bold mb-4">{car.marka} {car.model} {car.versiya}</h1>
 
-        {/* Галерея видео + фото */}
         {gallery.length > 0 && (
           <div className="relative mb-4 w-full aspect-[16/9] overflow-hidden rounded-lg">
             {current.type === 'video' ? (
-              <video
-                src={current.src}
-                controls
-                className="w-full h-full object-cover rounded-lg"
-              />
+              <video src={current.src} controls className="w-full h-full object-cover rounded-lg"/>
             ) : (
-              <img
-                src={current.src}
-                alt="car"
-                className="w-full h-full object-cover rounded-lg"
-              />
+              <img src={current.src} alt="car" className="w-full h-full object-cover rounded-lg"/>
             )}
 
             {gallery.length > 1 && (
               <>
-                <button
-                  onClick={handlePrev}
-                  className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white px-2 py-1 rounded opacity-70 hover:opacity-100"
-                >‹</button>
-                <button
-                  onClick={handleNext}
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white px-2 py-1 rounded opacity-70 hover:opacity-100"
-                >›</button>
-                <p className="absolute bottom-2 right-2 bg-white bg-opacity-70 px-2 py-1 rounded text-sm text-black">
-                  {currentIndex + 1} / {gallery.length}
-                </p>
+                <button onClick={handlePrev} className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white px-2 py-1 rounded opacity-70 hover:opacity-100">‹</button>
+                <button onClick={handleNext} className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white px-2 py-1 rounded opacity-70 hover:opacity-100">›</button>
+                <p className="absolute bottom-2 right-2 bg-white bg-opacity-70 px-2 py-1 rounded text-sm text-black">{currentIndex + 1} / {gallery.length}</p>
               </>
             )}
           </div>
@@ -103,14 +115,20 @@ const CarDetail = () => {
           <p><strong>Yanacaq:</strong> {car.yanacaq}</p>
         </div>
 
-        <a
-          href={whatsappLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-4 inline-flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600"
-        >
-          Əlaqə <FaWhatsapp size={20}/>
-        </a>
+        <div className="mt-4 flex gap-2">
+          <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="flex-1 inline-flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 justify-center">
+            Əlaqə <FaWhatsapp size={20}/>
+          </a>
+
+          {isFavorite && (
+            <div
+              onClick={(e) => { e.stopPropagation(); removeFromFavorites(car._id); }}
+              className="rounded-lg w-[30%] flex items-center justify-center text-red-500 cursor-pointer"
+            >
+              <IoIosHeart size={25}/>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
