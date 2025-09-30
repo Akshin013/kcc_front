@@ -12,7 +12,7 @@ const CarDetail = () => {
   const [car, setCar] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [favorites, setFavorites] = useState([]);
-  const whatsappNumber = '+994553801105';
+  const whatsappNumber = '+9940553801105';
 
   const fetchFavorites = async (userId) => {
     try {
@@ -26,28 +26,35 @@ const CarDetail = () => {
     }
   };
 
-  const removeFromFavorites = async (carId) => {
+  const toggleFavorite = async (carId) => {
     const userId = localStorage.getItem("userId");
+    if (!userId) return;
+
     try {
-      const favRes = await axios.get(`https://kcc-back.onrender.com/api/favorites/${userId}`);
-      const favItem = favRes.data.find(f => f.carId?._id === carId);
-      if (!favItem) return;
-      await axios.delete(`https://kcc-back.onrender.com/api/favorites/${favItem._id}`);
-      setFavorites(prev => prev.filter(id => id !== carId));
+      if (favorites.includes(carId)) {
+        // Удалить из избранного
+        const favRes = await axios.get(`https://kcc-back.onrender.com/api/favorites/${userId}`);
+        const favItem = favRes.data.find(f => f.carId?._id === carId);
+        if (!favItem) return;
+        await axios.delete(`https://kcc-back.onrender.com/api/favorites/${favItem._id}`);
+        setFavorites(prev => prev.filter(id => id !== carId));
+      } else {
+        // Добавить в избранное
+        await axios.post(`https://kcc-back.onrender.com/api/favorites`, { userId, carId });
+        setFavorites(prev => [...prev, carId]);
+      }
     } catch (err) {
-      console.error("Ошибка при удалении из избранного:", err.response?.data || err.message);
+      console.error("Ошибка при изменении избранного:", err.response?.data || err.message);
     }
   };
 
   useEffect(() => {
-    const userId = localStorage.getItem("userId");
+    let userId = localStorage.getItem("userId");
     if (!userId) {
-      const newId = crypto.randomUUID();
-      localStorage.setItem("userId", newId);
-      fetchFavorites(newId);
-    } else {
-      fetchFavorites(userId);
+      userId = crypto.randomUUID();
+      localStorage.setItem("userId", userId);
     }
+    fetchFavorites(userId);
 
     if (!carId) return;
     axios.get(`https://kcc-back.onrender.com/api/cars/${carId}`)
@@ -120,14 +127,14 @@ const CarDetail = () => {
             Əlaqə <FaWhatsapp size={20}/>
           </a>
 
-          {isFavorite && (
-            <div
-              onClick={(e) => { e.stopPropagation(); removeFromFavorites(car._id); }}
-              className="rounded-lg w-[30%] flex items-center justify-center text-red-500 cursor-pointer"
-            >
-              <IoIosHeart size={25}/>
-            </div>
-          )}
+          <div
+            onClick={(e) => { e.stopPropagation(); toggleFavorite(car._id); }}
+            className={`rounded-lg w-[30%] flex items-center justify-center cursor-pointer ${
+              isFavorite ? "text-red-500" : "text-gray-400"
+            }`}
+          >
+            <IoIosHeart size={25}/>
+          </div>
         </div>
       </div>
     </div>
