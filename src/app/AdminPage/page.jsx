@@ -83,7 +83,7 @@ const AdminPage = () => {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      alert(editingCarId ? "Машина успешно обновлена!" : "Машина успешно добавлена!");
+      alert(editingCarId ? "Maşın uğurla yeniləndi!" : "Maşın uğurla əlavə edildi!");
       setNewCar({
         marka: '',
         model: '',
@@ -123,7 +123,7 @@ const handleSearch = () => {
   const idNum = Number(searchId.trim());
 
   if (!idNum) {
-    alert("Введите корректный ID (число)");
+    alert("Düzgün ID daxil edin");
     return;
   }
 
@@ -133,7 +133,7 @@ const handleSearch = () => {
     setSearchResult(found);
   } else {
     setSearchResult(null);
-    alert("Машина с таким ID не найдена");
+    alert("Bu ID-ile avto tapilmadi");
   }
 };
 
@@ -141,17 +141,17 @@ const handleSearch = () => {
   if (!isLoggedIn) {
     return (
       <div className="p-4">
-        <h1 className="text-2xl font-bold mb-4">Админ вход</h1>
+        <h1 className="text-2xl font-bold mb-4">Admin giriş</h1>
         <input
           type="text"
-          placeholder="Логин"
+          placeholder="Login"
           value={username}
           onChange={e => setUsername(e.target.value)}
           className="border p-2 mb-2 w-full text-white border-gray-400 rounded-lg"
         />
         <input
           type="password"
-          placeholder="Пароль"
+          placeholder="Parol"
           value={password}
           onChange={e => setPassword(e.target.value)}
           className="border p-2 mb-2 w-full text-white border-gray-400 rounded-lg"
@@ -160,7 +160,7 @@ const handleSearch = () => {
           onClick={handleLogin}
           className="bg-blue-500 text-white px-4 py-2 w-full rounded-lg cursor-pointer"
         >
-          Войти
+          Daxil ol
         </button>
       </div>
     );
@@ -168,9 +168,8 @@ const handleSearch = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Админ панель</h1>
-
-      <h2 className="text-xl font-semibold mb-2">{editingCarId ? 'Редактировать машину' : 'Добавить машину'}</h2>
+      <h1 className="text-2xl font-bold mb-4">Admin panel</h1>
+      <h2 className="text-xl font-semibold mb-2">{editingCarId ? 'Maşını düzəldin' : 'Əlavə et'}</h2>
       
       <div className="grid grid-cols-2 gap-2 mb-4">
         {Object.keys(newCar).map(key => (
@@ -178,14 +177,14 @@ const handleSearch = () => {
             key={key}
             type={typeof newCar[key] === 'number' ? 'number' : 'text'}
             placeholder={key}
-            value={newCar[key]}
+            // value={newCar[key]}
             onChange={e => setNewCar({...newCar, [key]: e.target.type === 'number' ? Number(e.target.value) : e.target.value})}
             className="border p-2 text-white border-gray-400 rounded-lg"
           />
         ))}
       </div>
       <div className="mb-4">
-        <label className="block mb-1 font-semibold">Фото:</label>
+        <label className="block mb-1 font-semibold">Foto:</label>
         <input
           type="file"
           multiple
@@ -196,7 +195,7 @@ const handleSearch = () => {
       </div>
 
       <div className="mb-4">
-        <label className="block mb-1 font-semibold">Видео:</label>
+        <label className="block mb-1 font-semibold">Video:</label>
         <input
           type="file"
           multiple
@@ -247,14 +246,14 @@ const handleSearch = () => {
           onClick={handleAddOrUpdateCar}
           className="bg-green-500 text-white px-4 py-2 w-full rounded"
         >
-          {editingCarId ? 'Сохранить изменения' : 'Добавить машину'}
+          {editingCarId ? 'Dəyişiklikləri Saxla' : 'Əlavə et'}
         </button>
         </div>
         
         <div className='flex items-center gap-4 mb-6'>       
           <input
           type="text"
-          placeholder="Поиск по carId"
+          placeholder="Axtarış"
           value={searchId}
           onChange={e => setSearchId(e.target.value)}
           className="border p-2 border-gray-400 w-[80%] rounded-lg"
@@ -263,35 +262,43 @@ const handleSearch = () => {
           onClick={handleSearch}
           className="bg-blue-500 text-white  w-[20%] py-2 rounded"
         >
-          Найти
+          Axtar
         </button>
       </div>
 
       {searchResult && (
         <div className="border p-4 mb-6 rounded shadow bg-yellow-50">
-          <h3 className="font-bold text-lg mb-2">Результат поиска:</h3>
+          <h3 className="font-bold text-lg mb-2">Axtarış nəticəsi:</h3>
+          {/* <p><strong>ID:</strong> {searchResult.images}</p> */}
+          {searchResult.images && searchResult.images.length > 0 && (
+          <img
+              src={searchResult.images[0]}
+              alt={`${searchResult.marka} ${searchResult.model}`}
+              className="h-40 w-full object-cover rounded mb-2"
+            />
+          )}
           <p><strong>ID:</strong> {searchResult.carId}</p>
-          <p><strong>Марка:</strong> {searchResult.marka}</p>
-          <p><strong>Модель:</strong> {searchResult.model}</p>
-          <p><strong>Дата добавления:</strong> {new Date(searchResult.createdAt).toLocaleString()}</p>
+          <p><strong>Marka:</strong> {searchResult.marka}</p>
+          <p><strong>Model:</strong> {searchResult.model}</p>
+          <p><strong>Əlavə tarixi:</strong> {new Date(searchResult.createdAt).toLocaleString()}</p>
           <div className="flex gap-2 mt-2">
             <button
               onClick={() => setEditingCarId(searchResult._id)}
               className="bg-blue-500 text-white px-3 py-1 rounded"
             >
-              Редактировать
+              Edit
             </button>
             <button
               onClick={() => handleDeleteCar(searchResult._id)}
               className="bg-red-500 text-white px-3 py-1 rounded"
             >
-              Удалить
+              Delete
             </button>
           </div>
         </div>
       )}
 
-      <h2 className="text-xl font-semibold mb-2">Список машин</h2>
+      <h2 className="text-xl font-semibold mb-2">Maşınların siyahısı</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 {cars.map(car => (
   <div key={car._id} className="border p-4 rounded shadow">
@@ -304,8 +311,8 @@ const handleSearch = () => {
     )}
     <p className='text-white'><strong>{car.marka} {car.model}</strong></p>
     <p className='text-white'>ID: {car.carId}</p>
-    <p className='text-white'>Цена: ${car.qiymet}</p>
-    <p className='text-white'>Дата: {new Date(car.createdAt).toLocaleString()}</p>
+    <p className='text-white'>Qiymət: ${car.qiymet}</p>
+    <p className='text-white'>Tarix: {new Date(car.createdAt).toLocaleString()}</p>
 
     {/* Чекбокс “Продана” */}
     <div className="flex items-center gap-2 mt-2">
@@ -322,21 +329,21 @@ const handleSearch = () => {
         }}
       />
       <label htmlFor={`sold-${car._id}`} className={`font-semibold ${car.sold ? 'text-red-500' : 'text-green-500'}`}>
-        {car.sold ? 'Продана' : 'В наличии'}
+        {car.sold ? 'Satilib' : 'Stokda'}
       </label>
     </div>
     <div className="flex gap-2 mt-2">
       <button
         onClick={() => setEditingCarId(car._id)}
         className="bg-blue-500 text-white px-2 py-1 rounded"
-      >
-        Редактировать
+      >   
+        Edit
       </button>
       <button
         onClick={() => handleDeleteCar(car._id)}
         className="bg-red-500 text-white px-2 py-1 rounded"
       >
-        Удалить
+        Delete
       </button>
     </div>
   </div>
