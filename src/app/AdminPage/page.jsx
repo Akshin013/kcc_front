@@ -136,6 +136,27 @@ const handleSearch = () => {
     alert("Bu ID-ile avto tapilmadi");
   }
 };
+const handleEditCar = (car) => {
+  setNewCar({
+    marka: car.marka,
+    model: car.model,
+    versiya: car.versiya,
+    yerSayi: car.yerSayi,
+    lyuk: car.lyuk,
+    il: car.il,
+    km: car.km,
+    boya: car.boya,
+    deyisen: car.deyisen,
+    yanacaq: car.yanacaq,
+    qiymet: car.qiymet,
+    sold: car.sold
+  });
+  setEditingCarId(car._id);
+
+  // если нужно, можно подставить изображения и видео
+  // setImages(car.images || []);
+  // setVideos(car.videos || []);
+};
 
 
   if (!isLoggedIn) {
@@ -172,16 +193,20 @@ const handleSearch = () => {
       <h2 className="text-xl font-semibold mb-2">{editingCarId ? 'Maşını düzəldin' : 'Əlavə et'}</h2>
       
       <div className="grid grid-cols-2 gap-2 mb-4">
-        {Object.keys(newCar).map(key => (
-          <input
-            key={key}
-            type={typeof newCar[key] === 'number' ? 'number' : 'text'}
-            placeholder={key}
-            // value={newCar[key]}
-            onChange={e => setNewCar({...newCar, [key]: e.target.type === 'number' ? Number(e.target.value) : e.target.value})}
-            className="border p-2 text-white border-gray-400 rounded-lg"
-          />
-        ))}
+ {Object.keys(newCar).map(key => (
+  <input
+    key={key}
+    type={typeof newCar[key] === 'number' ? 'number' : 'text'}
+    placeholder={key}
+    value={newCar[key]}   // показываем текущее значение
+    onChange={e => setNewCar({
+      ...newCar,
+      [key]: e.target.type === 'number' ? Number(e.target.value) : e.target.value
+    })}
+    className="border p-2 text-white border-gray-400 rounded-lg"
+  />
+))}
+
       </div>
       <div className="mb-4">
         <label className="block mb-1 font-semibold">Foto:</label>
@@ -282,12 +307,13 @@ const handleSearch = () => {
           <p><strong>Model:</strong> {searchResult.model}</p>
           <p><strong>Əlavə tarixi:</strong> {new Date(searchResult.createdAt).toLocaleString()}</p>
           <div className="flex gap-2 mt-2">
-            <button
-              onClick={() => setEditingCarId(searchResult._id)}
-              className="bg-blue-500 text-white px-3 py-1 rounded"
-            >
-              Edit
-            </button>
+   <button
+  onClick={() => handleEditCar(car)} // передаем весь объект машины
+  className="bg-blue-500 text-white px-2 py-1 rounded"
+>
+  Edit
+</button>
+
             <button
               onClick={() => handleDeleteCar(searchResult._id)}
               className="bg-red-500 text-white px-3 py-1 rounded"
