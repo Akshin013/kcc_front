@@ -12,14 +12,6 @@ const CarDetail = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const whatsappNumber = '+79658926701';
 
-  // объединяем видео + изображения для галереи
-  const gallery = car
-    ? [
-        ...(car.videos || []).map(src => ({ type: 'video', src })),
-        ...(car.images || []).map(src => ({ type: 'image', src }))
-      ]
-    : [];
-
   useEffect(() => {
     if (!carId) return;
 
@@ -27,6 +19,14 @@ const CarDetail = () => {
       .then(res => setCar(res.data))
       .catch(err => console.error(err));
   }, [carId]);
+
+  if (!car) return <div className="p-4 text-white">Загрузка...</div>;
+
+  // объединяем видео + изображения для общей галереи
+  const gallery = [
+    ...(car.videos || []).map(src => ({ type: 'video', src })),
+    ...(car.images || []).map(src => ({ type: 'image', src }))
+  ];
 
   const handlePrev = () => {
     setCurrentIndex(prev => (prev - 1 + gallery.length) % gallery.length);
@@ -36,12 +36,10 @@ const CarDetail = () => {
     setCurrentIndex(prev => (prev + 1) % gallery.length);
   };
 
-  if (!car) return <div className="p-4 text-white">Загрузка...</div>;
+  const current = gallery[currentIndex];
 
   const message = `Salam! Mən bu maşınla maraqlanıram: ${car.marka} ${car.model}, İl: ${car.il}, Qiymət: ${car.qiymet}$ (Car ID: ${car.carId})`;
   const whatsappLink = `https://wa.me/${whatsappNumber.replace('+','')}/?text=${encodeURIComponent(message)}`;
-
-  const current = gallery[currentIndex];
 
   return (
     <div className="p-4 bg-[#333333] min-h-screen text-white">
@@ -54,6 +52,7 @@ const CarDetail = () => {
       <div className="max-w-4xl mx-auto border border-gray-500 bg-[#545454] rounded-lg shadow-lg p-4">
         <h1 className="text-2xl font-bold mb-4">{car.marka} {car.model} {car.versiya}</h1>
 
+        {/* Галерея видео + фото */}
         {gallery.length > 0 && (
           <div className="relative mb-4 w-full aspect-[16/9] overflow-hidden rounded-lg">
             {current.type === 'video' ? (
