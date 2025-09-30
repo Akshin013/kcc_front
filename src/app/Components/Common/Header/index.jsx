@@ -7,7 +7,7 @@ const Header = () => {
         <Link href='/'>
             {/* <img src='/front/public/logo.svg' alt='Logo' className='h-3 w-3'/> */}
             <img src="https://res.cloudinary.com/dvm6my9na/image/upload/v1759055745/KCC_LOGO_otkfkn.jpg" alt="Логотип KCC" className="h-12 w-auto" />
-        </Link>ффф
+        </Link>
     </div>
   )
 }
