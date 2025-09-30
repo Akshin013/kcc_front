@@ -4,7 +4,7 @@ import { useParams } from 'next/navigation';
 import axios from 'axios';
 import { FaWhatsapp } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
-import { useSwipeable } from "react-swipeable";
+// import { useSwipeable } from "react-swipeable";
 import Link from 'next/link';
 
 const CarDetail = () => {
@@ -13,12 +13,12 @@ const CarDetail = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const whatsappNumber = '+79658926701';
 
-  const swipeHandlers = useSwipeable({
-    onSwipedLeft: () => handleNextImage(),
-    onSwipedRight: () => handlePrevImage(),
-    preventDefaultTouchmoveEvent: true,
-    trackMouse: true
-  });
+  // const swipeHandlers = useSwipeable({
+  //   onSwipedLeft: () => handleNextImage(),
+  //   onSwipedRight: () => handlePrevImage(),
+  //   preventDefaultTouchmoveEvent: true,
+  //   trackMouse: true
+  // });
 
   useEffect(() => {
     if (!carId) return;
@@ -55,7 +55,7 @@ const CarDetail = () => {
       <div className="max-w-4xl mx-auto border border-gray-500 bg-[#545454] rounded-lg shadow-lg p-4">
         <h1 className="text-2xl font-bold mb-4">{car.marka} {car.model} {car.versiya}</h1>
 
-        <div {...swipeHandlers} className="relative mb-4">
+        <div className="relative mb-4">
           {car.video ? (
             <div className="w-full aspect-[16/9] overflow-hidden rounded-lg">
               <video
