@@ -4,23 +4,21 @@ import { useParams } from 'next/navigation';
 import axios from 'axios';
 import { FaWhatsapp } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
-// import { useSwipeable } from "react-swipeable";
+import { useSwipeable } from "react-swipeable";
 import Link from 'next/link';
 
 const CarDetail = () => {
   const { carId } = useParams();
   const [car, setCar] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [showVideo, setShowVideo] = useState(true);
   const whatsappNumber = '+79658926701';
 
-  // const swipeHandlers = useSwipeable({
-  //   onSwipedLeft: () => handleNextImage(),
-  //   onSwipedRight: () => handlePrevImage(),
-  //   preventDefaultTouchmoveEvent: true,
-  //   trackMouse: true
-  // });
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: () => handleNextImage(),
+    onSwipedRight: () => handlePrevImage(),
+    preventDefaultTouchmoveEvent: true,
+    trackMouse: true
+  });
 
   useEffect(() => {
     if (!carId) return;
@@ -30,13 +28,13 @@ const CarDetail = () => {
   }, [carId]);
 
   const handlePrevImage = () => {
-    if (!car) return;
-    setCurrentIndex((prev) => (prev - 1 + car.images.length) % car.images.length);
+    if (!car || !car.images?.length) return;
+    setCurrentIndex(prev => (prev - 1 + car.images.length) % car.images.length);
   };
 
   const handleNextImage = () => {
-    if (!car) return;
-    setCurrentIndex((prev) => (prev + 1) % car.images.length);
+    if (!car || !car.images?.length) return;
+    setCurrentIndex(prev => (prev + 1) % car.images.length);
   };
 
   if (!car) return <div className="p-4 text-white">Загрузка...</div>;
@@ -45,7 +43,7 @@ const CarDetail = () => {
   const whatsappLink = `https://wa.me/${whatsappNumber.replace('+','')}/?text=${encodeURIComponent(message)}`;
 
   return (
-    <div className="p-4 mb-20 bg-[#333333] min-h-screen text-white">
+    <div className="p-4 bg-[#333333] min-h-screen text-white">
 
       {/* Кнопка возврата на главную */}
       <div className="mb-4">
@@ -55,28 +53,31 @@ const CarDetail = () => {
       </div>
 
       <div className="max-w-4xl mx-auto border border-gray-500 bg-[#545454] rounded-lg shadow-lg p-4">
-        <h1 className="text-2xl font-bold mb-2">{car.marka} {car.model} {car.versiya}</h1>
+        <h1 className="text-2xl font-bold mb-4">{car.marka} {car.model} {car.versiya}</h1>
 
-        <div  className="relative mb-4">
+        <div {...swipeHandlers} className="relative mb-4">
           {car.video ? (
-            <video
-              src={car.video}
-              controls
-              autoPlay
-              muted
-              className="w-full h-80 object-cover rounded"
-              onError={(e) => { e.target.style.display = 'none'; }}
-            />
+            <div className="w-full aspect-[16/9] overflow-hidden rounded-lg">
+              <video
+                src={car.video}
+                controls
+                autoPlay
+                muted
+                className="w-full h-full object-cover"
+                onError={(e) => { e.target.style.display = 'none'; }}
+              />
+            </div>
           ) : car.images?.length > 0 ? (
-            <div className="relative mb-4">
+            <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden">
               <img
                 src={car.images[currentIndex]}
                 alt={`${car.marka} ${car.model}`}
-                className="w-full h-80 object-cover rounded cursor-pointer"
-                onClick={() => setModalOpen(true)}
+                className="w-full h-full object-cover cursor-pointer"
+                onClick={() => {}}
                 onError={(e) => { e.target.src = '/default-car.jpg'; }}
               />
-              {car.images.length > 1 && !showVideo && (
+
+              {car.images.length > 1 && (
                 <>
                   <button
                     onClick={(e) => { e.stopPropagation(); handlePrevImage(); }}
