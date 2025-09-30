@@ -162,7 +162,7 @@ const handleEditCar = (car) => {
   if (!isLoggedIn) {
     return (
       <div className="p-4">
-        <h1 className="text-2xl font-bold mb-4">Admin giriş</h1>
+        <h1 className="text-2xl font-bold mb-4 text-white">Admin giriş</h1>
         <input
           type="text"
           placeholder="Login"
@@ -189,7 +189,7 @@ const handleEditCar = (car) => {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Admin panel</h1>
+      <h1 className="text-2xl font-bold mb-4 text-white">Admin panel</h1>
       <h2 className="text-xl font-semibold mb-2">{editingCarId ? 'Maşını düzəldin' : 'Əlavə et'}</h2>
       
       <div className="grid grid-cols-2 gap-2 mb-4">
