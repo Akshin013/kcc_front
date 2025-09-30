@@ -4,7 +4,7 @@ import { useParams } from 'next/navigation';
 import axios from 'axios';
 import { FaWhatsapp } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
-import { useSwipeable } from "react-swipeable";
+// import { useSwipeable } from "react-swipeable";
 import Link from 'next/link';
 
 const CarDetail = () => {
@@ -14,12 +14,12 @@ const CarDetail = () => {
   const [video, setVideo] = useState([])
   const whatsappNumber = '+79658926701';
 
-  const swipeHandlers = useSwipeable({
-    onSwipedLeft: () => handleNextImage(),
-    onSwipedRight: () => handlePrevImage(),
-    preventDefaultTouchmoveEvent: true,
-    trackMouse: true
-  });
+  // const swipeHandlers = useSwipeable({
+  //   onSwipedLeft: () => handleNextImage(),
+  //   onSwipedRight: () => handlePrevImage(),
+  //   preventDefaultTouchmoveEvent: true,
+  //   trackMouse: true
+  // });
 
   useEffect(() => {
     if (!carId) return;
@@ -127,7 +127,7 @@ const CarDetail = () => {
         </div>
 
         <a
-          href={whatsappLink}
+          
           target="_blank"
           rel="noopener noreferrer"
           className="mt-4 inline-flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600"
