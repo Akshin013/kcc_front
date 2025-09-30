@@ -152,21 +152,17 @@ const handleEditCar = (car) => {
     sold: car.sold
   });
   setEditingCarId(car._id);
-
   window.scrollTo({
     top: 0,
     behavior: 'smooth'
   });
-  // если нужно, можно подставить изображения и видео
-  // setImages(car.images || []);
-  // setVideos(car.videos || []);
 };
 
 
   if (!isLoggedIn) {
     return (
       <div className="p-4">
-        <h1 className="text-2xl font-bold mb-4 text-white">Admin giriş</h1>
+        <h1 className="text-2xl font-bold mb-4">Admin giriş</h1>
         <input
           type="text"
           placeholder="Login"
@@ -193,23 +189,39 @@ const handleEditCar = (car) => {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4 text-white">Admin panel</h1>
+      <h1 className="text-2xl font-bold mb-4">Admin panel</h1>
       <h2 className="text-xl font-semibold mb-2">{editingCarId ? 'Maşını düzəldin' : 'Əlavə et'}</h2>
       
       <div className="grid grid-cols-2 gap-2 mb-4">
- {Object.keys(newCar).map(key => (
-  <input
-    key={key}
-    type={typeof newCar[key] === 'number' ? 'number' : 'text'}
-    placeholder={key}
-    value={newCar[key]}   // показываем текущее значение
-    onChange={e => setNewCar({
-      ...newCar,
-      [key]: e.target.type === 'number' ? Number(e.target.value) : e.target.value
-    })}
-    className="border p-2 text-white border-gray-400 rounded-lg"
-  />
+{Object.keys(newCar).map(key => (
+  typeof newCar[key] === 'boolean' ? (
+    <label key={key} className="flex items-center gap-2 border p-2 text-white border-gray-400 rounded-lg">
+      <input
+        type="checkbox"
+        checked={newCar[key]}   // для checkbox используем checked
+        onChange={e => setNewCar({
+          ...newCar,
+          [key]: e.target.checked
+        })}
+        className="h-5 w-5"
+      />
+      <span className="text-white">{key}</span>
+    </label>
+  ) : (
+    <input
+      key={key}
+      type={typeof newCar[key] === 'number' ? 'number' : 'text'}
+      placeholder={key}
+      // value={newCar[key]}
+      onChange={e => setNewCar({
+        ...newCar,
+        [key]: e.target.type === 'number' ? Number(e.target.value) : e.target.value
+      })}
+      className="border p-2 text-white border-gray-400 rounded-lg"
+    />
+  )
 ))}
+
 
       </div>
       <div className="mb-4">
@@ -311,11 +323,12 @@ const handleEditCar = (car) => {
           <p><strong>Model:</strong> {searchResult.model}</p>
           <p><strong>Əlavə tarixi:</strong> {new Date(searchResult.createdAt).toLocaleString()}</p>
           <div className="flex gap-2 mt-2">
-          <button
-            onClick={() => handleEditCar(searchResult)}
-            className="bg-blue-500 text-white px-3 py-1 rounded">
-            Edit
-          </button>
+            <button
+              onClick={() => setEditingCarId(searchResult._id)}
+              className="bg-blue-500 text-white px-3 py-1 rounded"
+            >
+              Edit
+            </button>
             <button
               onClick={() => handleDeleteCar(searchResult._id)}
               className="bg-red-500 text-white px-3 py-1 rounded"
@@ -361,12 +374,12 @@ const handleEditCar = (car) => {
       </label>
     </div>
     <div className="flex gap-2 mt-2">
-<button
-  onClick={() => handleEditCar(car)} // передаем весь объект машины
-  className="bg-blue-500 text-white px-2 py-1 rounded"
->
-  Edit
-</button>
+      <button
+        onClick={() => handleEditCar(car)} // передаем весь объект машины
+        className="bg-blue-500 text-white px-2 py-1 rounded"
+      >
+        Edit
+      </button>
 
       <button
         onClick={() => handleDeleteCar(car._id)}
