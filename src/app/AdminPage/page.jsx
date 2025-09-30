@@ -307,13 +307,11 @@ const handleEditCar = (car) => {
           <p><strong>Model:</strong> {searchResult.model}</p>
           <p><strong>Əlavə tarixi:</strong> {new Date(searchResult.createdAt).toLocaleString()}</p>
           <div className="flex gap-2 mt-2">
-   <button
-  onClick={() => handleEditCar(car)} // передаем весь объект машины
-  className="bg-blue-500 text-white px-2 py-1 rounded"
->
-  Edit
-</button>
-
+          <button
+            onClick={() => handleEditCar(searchResult)}
+            className="bg-blue-500 text-white px-3 py-1 rounded">
+            Edit
+          </button>
             <button
               onClick={() => handleDeleteCar(searchResult._id)}
               className="bg-red-500 text-white px-3 py-1 rounded"
@@ -359,12 +357,13 @@ const handleEditCar = (car) => {
       </label>
     </div>
     <div className="flex gap-2 mt-2">
-      <button
-        onClick={() => setEditingCarId(car._id)}
-        className="bg-blue-500 text-white px-2 py-1 rounded"
-      >   
-        Edit
-      </button>
+<button
+  onClick={() => handleEditCar(car)} // передаем весь объект машины
+  className="bg-blue-500 text-white px-2 py-1 rounded"
+>
+  Edit
+</button>
+
       <button
         onClick={() => handleDeleteCar(car._id)}
         className="bg-red-500 text-white px-2 py-1 rounded"
