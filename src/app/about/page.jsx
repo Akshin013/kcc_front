@@ -35,7 +35,7 @@ const About = () => {
       </div>
 
       {/* Нижняя секция */}
-      <div className="relative flex flex-col md:flex-row-reverse items-center md:items-start gap-12">
+      <div className="relative flex mb-20 flex-col md:flex-row-reverse items-center md:items-start gap-12">
         {/* Текст справа */}
         <div className="md:w-1/2 text-lg font-medium space-y-4 z-10">
           <h2 className="text-4xl md:text-5xl font-extrabold">
