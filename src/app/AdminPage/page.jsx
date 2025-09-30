@@ -350,9 +350,9 @@ const handleEditCar = (car) => {
         onChange={async e => {
           try {
             await axios.patch(`https://kcc-back.onrender.com/api/cars/${car._id}/sold`, { sold: e.target.checked });
-            fetchCars();
+            fetchCars(); // Обновление списка автомобилей
           } catch (err) {
-            console.error('Ошибка обновления статуса продано:', err);
+            console.error('ERROR:', err);
           }
         }}
       />
