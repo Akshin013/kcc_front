@@ -203,14 +203,14 @@ const Main = () => {
                   {car.sold ? 'SATILIB' : `${car.qiymet} $ (Baki tehvil)`}
                 </p>
               </div>
-              <div className='flex gap-2'>
+              <div className='flex gap-1'>
                 <p>{car.marka || "\u00A0"}</p>
                 <p>{car.model || "\u00A0"}</p>
                 <p>{car.versiya || "\u00A0"}</p>
                 <p>{car.il || "\u00A0"}</p>
               </div>
                               
-              <div className='flex gap-2'>
+              <div className='flex gap-1.5'>
                 <p>{car.yanacaq || "\u00A0"}</p>
                 <p>{car.km ? `${car.km} km` : "\u00A0"}</p>
               </div>
