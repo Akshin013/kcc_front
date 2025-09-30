@@ -27,10 +27,10 @@ const AdminPage = () => {
   const [searchId, setSearchId] = useState('');
   const [searchResult, setSearchResult] = useState(null);
 
-  // const ADMIN_USERNAME = 'kccauto';
-  // const ADMIN_PASSWORD = 'Mamediq1988';
-  const ADMIN_USERNAME = 'a';
-  const ADMIN_PASSWORD = 'a';
+  const ADMIN_USERNAME = 'kccauto';
+  const ADMIN_PASSWORD = 'Mamediq1988';
+  // const ADMIN_USERNAME = 'a';
+  // const ADMIN_PASSWORD = 'a';
 
 
   // Получение машин
