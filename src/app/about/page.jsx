@@ -8,17 +8,17 @@ const About = () => {
       <div className="relative flex flex-col md:flex-row items-center md:items-start gap-12">
         {/* Текст слева */}
         <div className="md:w-1/2 text-lg font-medium space-y-4 z-10">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-yellow-400 drop-shadow-lg">
+          <h2 className="text-4xl md:text-5xl font-extrabold">
             Koreyadan avtomobil almaq artıq sadə və etibarlıdır!
           </h2>
-          <p className="text-gray-300">KCC Auto ilə siz:</p>
-          <ul className="list-disc list-inside space-y-2 text-gray-200">
+          <p>KCC Auto ilə siz:</p>
+          <ul className="list-disc list-inside space-y-2">
             <li>Şəffaf və təhlükəsiz sifariş prosesi əldə edirsiniz.</li>
             <li>Avtomobilin texniki vəziyyətini peşəkar yoxlayırıq.</li>
             <li>Sizin adınıza Koreyada auksion və Encar platformasında ən sərfəli təklifləri alırıq.</li>
             <li>Avtomobil kimyəvi təmizlənərək, parlaq şəkildə Azərbaycana gətirilir və qapınıza çatdırılır.</li>
           </ul>
-          <p className="font-semibold text-gray-100 mt-4 bg-gradient-to-r from-yellow-400 to-red-400 bg-clip-text text-transparent">
+          <p className="font-semibold mt-4">
             Nəticə: İlk və ya yeni avtomobilinizi almaq istəyirsinizsə, KCC Auto ilə proses asan, təhlükəsiz və sərfəlidir!
           </p>
         </div>
@@ -38,10 +38,10 @@ const About = () => {
       <div className="relative flex flex-col md:flex-row-reverse items-center md:items-start gap-12">
         {/* Текст справа */}
         <div className="md:w-1/2 text-lg font-medium space-y-4 z-10">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-green-400 drop-shadow-lg">
+          <h2 className="text-4xl md:text-5xl font-extrabold">
             Proses sadə, təhlükəsiz və şəffafdır
           </h2>
-          <p className="text-gray-200 leading-relaxed">
+          <p className="leading-relaxed">
             Biz Koreyada auksionlarda və Encar platformasında şəxsən iştirak edərək, sizin üçün ən sərfəli və keyfiyyətli avtomobili seçirik. 
             Sifarişinizin hər addımında sizi məlumatlandırır, avtomobili kimyəvi təmizləyərək, Azərbaycana çatdırırıq.
           </p>
