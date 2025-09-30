@@ -22,22 +22,18 @@ const Favorites = () => {
     fetchFavorites(userId);
   }, []);
 
-  const fetchFavorites = async (userId) => {
-    try {
-      const res = await axios.get(`https://kcc-back.onrender.com/api/favorites/${userId}`);
-      const favCars = Array.isArray(res.data) ? res.data.filter(fav => fav && fav.carId) : [];
-      setFavorites(favCars);
-
-      const initialIndex = {};
-      favCars.forEach(fav => { initialIndex[fav.carId._id] = 0; });
-      setCarImagesIndex(initialIndex);
-
-      setLoading(false);
-    } catch (err) {
-      console.error('Ошибка при получении избранного:', err);
-      setLoading(false);
-    }
-  };
+const fetchFavorites = async (userId) => {
+  try {
+    const res = await axios.get(`https://kcc-back.onrender.com/api/favorites/${userId}`);
+    console.log("Ответ бэка:", res.data);
+    const favCars = Array.isArray(res.data) ? res.data.filter(fav => fav && fav.carId) : [];
+    setFavorites(favCars);
+    ...
+  } catch (err) {
+    console.error('Ошибка при получении избранного:', err.response?.data || err.message);
+    setLoading(false);
+  }
+};
 
   const handlePrevImage = (carId) => {
     setCarImagesIndex(prev => {
