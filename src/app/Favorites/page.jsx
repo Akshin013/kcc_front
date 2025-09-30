@@ -9,7 +9,7 @@ const Favorites = () => {
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
   const [carImagesIndex, setCarImagesIndex] = useState({});
-  const whatsappNumber = '+994553801105';
+  const whatsappNumber = '+79658926701';
 
   useEffect(() => {
     let userId = localStorage.getItem('userId');
@@ -65,7 +65,7 @@ const Favorites = () => {
   if (loading) return <div>Yüklənir...</div>;
 
   return (
-    <div className="p-2 bg-[#333333] text-white">
+    <div className="p-2 mb-20  bg-[#333333] text-white">
       {favorites.length === 0 && 
       
       <div className='h-screen bg-[#4b4b4d] flex'>
@@ -89,7 +89,7 @@ const Favorites = () => {
             <div key={fav._id} className="border border-gray-500 bg-[#545454] rounded-lg shadow-md hover:shadow-xl transition">
               <Link href={`/Cars/${car._id}`} className="block no-underline">
                 {car.images?.length > 0 && (
-                  <div className="relative w-full aspect-[4/3] rounded-t-lg overflow-hidden">
+                  <div className="relative w-full bg-red-900 aspect-[4/3] rounded-t-lg overflow-hidden">
                     <img
                       src={car.images[currentIndex]}
                       alt={`${car.marka} ${car.model}`}
