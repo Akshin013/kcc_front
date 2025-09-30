@@ -5,7 +5,7 @@ import axios from 'axios';
 import { FaWhatsapp } from "react-icons/fa";
 
 const CarDetail = () => {
-  const { id } = useParams();
+  const  id  = useParams();
   const [car, setCar] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
