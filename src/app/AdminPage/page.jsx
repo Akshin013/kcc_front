@@ -255,38 +255,40 @@ const handleEditCar = (car) => {
 
       {/* предпросмотр новых фото/видео */}
       <div className="mb-4 flex gap-2 flex-wrap">
-        {images.map((file, idx) => (
-          <div key={idx} className="relative">
-            <img
-              src={URL.createObjectURL(file)}
-              alt={`preview ${idx}`}
-              className="h-24 w-24 object-cover rounded"
-            />
-            <button
-              type="button"
-              onClick={() => setImages(images.filter((_, i) => i !== idx))}
-              className="absolute top-0 right-0 bg-red-500 text-white text-xs px-1 rounded"
-            >
-              X
-            </button>
-          </div>
-        ))}
-        {videos.map((file, idx) => (
-          <div key={idx} className="relative">
-            <video
-              src={URL.createObjectURL(file)}
-              className="h-24 w-24 object-cover rounded"
-              controls
-            />
-            <button
-              type="button"
-              onClick={() => setVideos(videos.filter((_, i) => i !== idx))}
-              className="absolute top-0 right-0 bg-red-500 text-white text-xs px-1 rounded"
-            >
-              X
-            </button>
-          </div>
-        ))}
+ {images.map((file, idx) => (
+  <div key={idx} className="relative">
+    <img
+      src={file instanceof File ? URL.createObjectURL(file) : file}
+      alt={`preview ${idx}`}
+      className="h-24 w-24 object-cover rounded"
+    />
+    <button
+      type="button"
+      onClick={() => setImages(images.filter((_, i) => i !== idx))}
+      className="absolute top-0 right-0 bg-red-500 text-white text-xs px-1 rounded"
+    >
+      X
+    </button>
+  </div>
+))}
+
+{videos.map((file, idx) => (
+  <div key={idx} className="relative">
+    <video
+      src={file instanceof File ? URL.createObjectURL(file) : file}
+      className="h-24 w-24 object-cover rounded"
+      controls
+    />
+    <button
+      type="button"
+      onClick={() => setVideos(videos.filter((_, i) => i !== idx))}
+      className="absolute top-0 right-0 bg-red-500 text-white text-xs px-1 rounded"
+    >
+      X
+    </button>
+  </div>
+))}
+
       </div>
 
       <div className="flex items-center gap-4 mb-6">
