@@ -66,7 +66,7 @@ const CarDetail = () => {
       <div className="max-w-4xl mx-auto border border-gray-500 bg-[#545454] rounded-lg shadow-lg p-4">
         <h1 className="text-2xl font-bold mb-4">{car.marka} {car.model} {car.versiya}</h1>
 
-<div {...swipeHandlers} className="relative mb-4">
+<div  className="relative mb-4">
   { (video.length > 0 || car.images?.length > 0) && (() => {
     // объединяем сначала видео, потом картинки
     const gallery = [...video.map(src => ({ type: 'video', src })), 
