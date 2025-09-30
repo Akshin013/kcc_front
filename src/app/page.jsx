@@ -197,7 +197,7 @@ const Main = () => {
               </Link>
 
               <div>
-                <p className={`font-bold w-fit ${car.sold ? 'text-white bg-red-800 rounded-lg p-1' : ''}`}>
+                <p className={`font-bold w-fit ${car.sold ? 'text-white bg-red-800 rounded-lg px-1' : ''}`}>
                   {car.sold ? 'SATILIB' : `${car.qiymet} $`}
                 </p>
               </div>
