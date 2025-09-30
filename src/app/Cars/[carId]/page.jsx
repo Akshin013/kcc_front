@@ -45,7 +45,7 @@ const CarDetail = () => {
   const whatsappLink = `https://wa.me/${whatsappNumber.replace('+','')}/?text=${encodeURIComponent(message)}`;
 
   return (
-    <div className="p-4 bg-[#333333] min-h-screen text-white">
+    <div className="p-4 mb-20 bg-[#333333] min-h-screen text-white">
 
       {/* Кнопка возврата на главную */}
       <div className="mb-4">
