@@ -159,7 +159,7 @@ const AdminPage = () => {
   if (!isLoggedIn) {
     return (
       <div className="p-4">
-        <h1 className="text-2xl font-bold mb-4">Admin giriş</h1>
+        <h1 className="text-2xl text-white font-bold mb-4">Admin giriş</h1>
         <input
           type="text"
           placeholder="Login"
@@ -186,8 +186,8 @@ const AdminPage = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Admin panel</h1>
-      <h2 className="text-xl font-semibold mb-2">{editingCarId ? 'Maşını düzəldin' : 'Əlavə et'}</h2>
+      <h1 className="text-2xl text-white font-bold mb-4">Admin panel</h1>
+      <h2 className="text-xl text-white font-semibold mb-2">{editingCarId ? 'Maşını düzəldin' : 'Əlavə et'}</h2>
 
       {/* форма добавления/редактирования */}
       <div className="grid grid-cols-2 gap-2 mb-4">
@@ -222,7 +222,7 @@ const AdminPage = () => {
       </div>
 
       <div className="mb-4">
-        <label className="block mb-1 font-semibold">Foto:</label>
+        <label className="block text-white mb-1 font-semibold">Foto:</label>
         <input
           type="file"
           multiple
@@ -233,7 +233,7 @@ const AdminPage = () => {
       </div>
 
       <div className="mb-4">
-        <label className="block mb-1 font-semibold">Video:</label>
+        <label className="block text-white mb-1 font-semibold">Video:</label>
         <input
           type="file"
           multiple
@@ -295,7 +295,7 @@ const AdminPage = () => {
           placeholder="Axtarış"
           value={searchId}
           onChange={e => setSearchId(e.target.value)}
-          className="border p-2 border-gray-400 w-[80%] rounded-lg"
+          className="border text-white p-2 border-gray-400 w-[80%] rounded-lg"
         />
         <button
           onClick={handleSearch}
@@ -307,7 +307,7 @@ const AdminPage = () => {
 
       {searchResult && (
         <div className="border p-4 mb-6 rounded shadow bg-yellow-50">
-          <h3 className="font-bold text-lg mb-2">Axtarış nəticəsi:</h3>
+          <h3 className="font-bold text-white text-lg mb-2">Axtarış nəticəsi:</h3>
           {searchResult.images && searchResult.images.length > 0 && (
             <img
               src={searchResult.images[0]}
@@ -337,7 +337,7 @@ const AdminPage = () => {
       )}
 
       {/* список машин */}
-      <h2 className="text-xl font-semibold mb-2">Maşınların siyahısı</h2>
+      <h2 className="text-xl text-white font-semibold mb-2">Maşınların siyahısı</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {cars.map(car => (
           <div key={car._id} className="border p-4 rounded shadow">
