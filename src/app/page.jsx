@@ -84,6 +84,20 @@ const Main = () => {
     }
   };
 
+  const handlePrevImage = (carId) => {
+    setCarImagesIndex(prev => {
+      const length = cars.find(c => c._id === carId)?.images?.length || 1;
+      return { ...prev, [carId]: (prev[carId] - 1 + length) % length };
+    });
+  };
+
+  const handleNextImage = (carId) => {
+    setCarImagesIndex(prev => {
+      const length = cars.find(c => c._id === carId)?.images?.length || 1;
+      return { ...prev, [carId]: (prev[carId] + 1) % length };
+    });
+  };
+
   if (loading) return <div>Yüklənir...</div>;
 
   const years = [];
@@ -119,7 +133,6 @@ const Main = () => {
 
   return (
     <div className="p-2 bg-[#333333] text-white">
-      {/* Фильтры */}
       <div className="flex flex-col md:flex-row gap-2 mb-4">
         <input
           type="text"
@@ -151,8 +164,7 @@ const Main = () => {
         </div>
       </div>
 
-      {/* Карточки машин */}
-      <div className="grid mb-20 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="grid mb-20 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
         {filteredByDate.map(car => {
           const message = `Salam! Mən bu maşınla maraqlanıram: ${car.marka} ${car.model}, İl: ${car.il}, Qiymət: ${car.qiymet}$ (Car ID: ${car.carId})`;
           const whatsappLink = `https://wa.me/${whatsappNumber.replace('+','')}/?text=${encodeURIComponent(message)}`;
@@ -160,19 +172,20 @@ const Main = () => {
           const currentIndex = carImagesIndex[car._id] || 0;
 
           return (
-            <div key={car._id} className="border border-gray-500 bg-[#545454] p-2 rounded-lg shadow-md hover:shadow-xl transition cursor-pointer">
+            <div key={car._id} className="border border-gray-500 bg-[#545454] p-1 rounded-lg shadow-md hover:shadow-xl transition cursor-pointer">
               <Link href={`/Cars/${car._id}`} className="no-underline block">
-                <div className="w-full aspect-[4/3] overflow-hidden rounded-lg bg-gray-400 relative">
+                {/* Картинка с серым фоном */}
+                <div className="h-48 w-full overflow-hidden rounded-lg bg-gray-400 relative">
                   {car.images?.[0] && (
                     <img
                       src={car.images[0]}
                       alt={`${car.marka} ${car.model}`}
-                      className="w-full h-full object-cover"
+                      className="h-full w-full object-cover absolute top-0 left-0"
                       onError={(e) => { e.target.style.display = 'none'; }}
                     />
                   )}
                 </div>
-                <p className="text-sm text-gray-100 mt-1">
+                <p className="text-sm text-gray-100 mb-1">
                   {new Date(car.createdAt).toLocaleString([], {
                     year: 'numeric',
                     month: '2-digit',
@@ -183,35 +196,36 @@ const Main = () => {
                 </p>
               </Link>
 
-              <div className="flex justify-between items-center mt-2">
-                <p className={`font-bold ${car.sold ? 'text-white bg-red-800 rounded-lg px-1' : ''}`}>
+              <div>
+                <p className={`font-bold w-fit ${car.sold ? 'text-white bg-red-800 rounded-lg px-1' : ''}`}>
                   {car.sold ? 'SATILIB' : `${car.qiymet} $`}
                 </p>
-                <div
-                  onClick={(e) => { e.stopPropagation(); toggleFavorite(car._id); }}
-                  className="cursor-pointer"
-                >
-                  {isFavorite ? <IoIosHeart color='red' size={25}/> : <IoIosHeartEmpty color='white' size={25}/>}
-                </div>
               </div>
-
-              <div className='flex gap-2 mt-1 text-sm flex-wrap'>
+              <div className='flex gap-2'>
                 <p>{car.marka || ''}</p>
                 <p>{car.model || ''}</p>
                 <p>{car.versiya || ''}</p>
+              </div>
+              <div className='flex gap-2'>
                 <p>{car.il || ''}</p>
                 <p>{car.yanacaq || ''}</p>
                 <p>{car.km ? `${car.km} km` : ''}</p>
               </div>
-
-              <a
-                href={whatsappLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-2 inline-flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 w-full justify-center"
-              >
-                Əlaqə <FaWhatsapp size={20}/>
-              </a>
+              <div className="flex gap-2 mt-2">
+                <a
+                  href={whatsappLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation(car.carId)}
+                  className="bg-green-500 text-white h-7 w-[70%] rounded-lg flex items-center justify-center gap-[10%]">
+                  Əlaqə <FaWhatsapp size={25}/>
+                </a>
+                <div
+                  onClick={(e) => { e.stopPropagation(); toggleFavorite(car._id); }}
+                  className={`rounded-lg w-[30%] flex items-center justify-center ${isFavorite ? '' : 'text-white'}`}>
+                  {isFavorite ? <IoIosHeart color='red' size={25}/> : <IoIosHeartEmpty color='black' size={25}/>}
+                </div>
+              </div>
             </div>
           );
         })}
