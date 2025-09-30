@@ -13,13 +13,12 @@ const CarDetail = () => {
   const whatsappNumber = '+79658926701';
 
   useEffect(() => {
-    console.log(id);
-    if (!id) return;
-axios.get(`https://kcc-back.onrender.com/api/cars/${id}`)
-  .then(res => setCar(res.data))
-  .catch(err => console.error(err));
+    if (!carId) return;
+    axios.get(`https://kcc-back.onrender.com/api/cars/${carId}`)
+      .then(res => setCar(res.data))
+      .catch(err => console.error(err));
+  }, [carId]);
 
-  }, [id]);
 
   const handlePrevImage = () => {
     if (!car) return;
