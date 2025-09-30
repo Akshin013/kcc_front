@@ -34,7 +34,7 @@ const AdminPage = () => {
   const fetchCars = async () => {
     try {
       const res = await axios.get('https://kcc-back.onrender.com/api/cars');
-      const sorted = res.data.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+      const sorted = res.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
       setCars(sorted);
     } catch (err) {
       console.error('Ошибка получения машин:', err);
@@ -118,46 +118,43 @@ const AdminPage = () => {
     }
   };
 
-const handleSearch = () => {
-  // приводим строку к числу
-  const idNum = Number(searchId.trim());
+  const handleSearch = () => {
+    const idNum = Number(searchId.trim());
 
-  if (!idNum) {
-    alert("Düzgün ID daxil edin");
-    return;
-  }
+    if (!idNum) {
+      alert("Düzgün ID daxil edin");
+      return;
+    }
 
-  const found = cars.find(car => car.carId === idNum);
+    const found = cars.find(car => car.carId === idNum);
 
-  if (found) {
-    setSearchResult(found);
-  } else {
-    setSearchResult(null);
-    alert("Bu ID-ile avto tapilmadi");
-  }
-};
-const handleEditCar = (car) => {
-  setNewCar({
-    marka: car.marka,
-    model: car.model,
-    versiya: car.versiya,
-    yerSayi: car.yerSayi,
-    lyuk: car.lyuk,
-    il: car.il,
-    km: car.km,
-    boya: car.boya,
-    deyisen: car.deyisen,
-    yanacaq: car.yanacaq,
-    qiymet: car.qiymet,
-    sold: car.sold
-  });
-  setEditingCarId(car._id);
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  });
-};
+    if (found) {
+      setSearchResult(found);
+    } else {
+      setSearchResult(null);
+      alert("Bu ID-ile avto tapilmadi");
+    }
+  };
 
+  // 🔹 при редактировании — заполняем форму
+  const handleEditCar = (car) => {
+    setNewCar({
+      marka: car.marka || '',
+      model: car.model || '',
+      versiya: car.versiya || '',
+      yerSayi: car.yerSayi || 5,
+      lyuk: car.lyuk || false,
+      il: car.il || 2020,
+      km: car.km || 0,
+      boya: car.boya || '',
+      deyisen: car.deyisen || '',
+      yanacaq: car.yanacaq || '',
+      qiymet: car.qiymet || 0,
+      sold: car.sold || false
+    });
+    setEditingCarId(car._id);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   if (!isLoggedIn) {
     return (
@@ -177,7 +174,7 @@ const handleEditCar = (car) => {
           onChange={e => setPassword(e.target.value)}
           className="border p-2 mb-2 w-full text-white border-gray-400 rounded-lg"
         />
-        <button 
+        <button
           onClick={handleLogin}
           className="bg-blue-500 text-white px-4 py-2 w-full rounded-lg cursor-pointer"
         >
@@ -191,39 +188,39 @@ const handleEditCar = (car) => {
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Admin panel</h1>
       <h2 className="text-xl font-semibold mb-2">{editingCarId ? 'Maşını düzəldin' : 'Əlavə et'}</h2>
-      
+
+      {/* форма добавления/редактирования */}
       <div className="grid grid-cols-2 gap-2 mb-4">
-{Object.keys(newCar).map(key => (
-  typeof newCar[key] === 'boolean' ? (
-    <label key={key} className="flex items-center gap-2 border p-2 text-white border-gray-400 rounded-lg">
-      <input
-        type="checkbox"
-        checked={newCar[key]}   // для checkbox используем checked
-        onChange={e => setNewCar({
-          ...newCar,
-          [key]: e.target.checked
-        })}
-        className="h-5 w-5"
-      />
-      <span className="text-white">{key}</span>
-    </label>
-  ) : (
-    <input
-      key={key}
-      type={typeof newCar[key] === 'number' ? 'number' : 'text'}
-      placeholder={key}
-      // value={newCar[key]}
-      onChange={e => setNewCar({
-        ...newCar,
-        [key]: e.target.type === 'number' ? Number(e.target.value) : e.target.value
-      })}
-      className="border p-2 text-white border-gray-400 rounded-lg"
-    />
-  )
-))}
-
-
+        {Object.keys(newCar).map(key => (
+          typeof newCar[key] === 'boolean' ? (
+            <label key={key} className="flex items-center gap-2 border p-2 text-white border-gray-400 rounded-lg">
+              <input
+                type="checkbox"
+                checked={newCar[key]}
+                onChange={e => setNewCar({
+                  ...newCar,
+                  [key]: e.target.checked
+                })}
+                className="h-5 w-5"
+              />
+              <span className="text-white">{key}</span>
+            </label>
+          ) : (
+            <input
+              key={key}
+              type={typeof newCar[key] === 'number' ? 'number' : 'text'}
+              placeholder={key}
+              value={newCar[key]}   // ✅ теперь инпуты заполняются
+              onChange={e => setNewCar({
+                ...newCar,
+                [key]: e.target.type === 'number' ? Number(e.target.value) : e.target.value
+              })}
+              className="border p-2 text-white border-gray-400 rounded-lg"
+            />
+          )
+        ))}
       </div>
+
       <div className="mb-4">
         <label className="block mb-1 font-semibold">Foto:</label>
         <input
@@ -246,7 +243,7 @@ const handleEditCar = (car) => {
         />
       </div>
 
-      {/* предпросмотр новых фото */}
+      {/* предпросмотр новых фото/видео */}
       <div className="mb-4 flex gap-2 flex-wrap">
         {images.map((file, idx) => (
           <div key={idx} className="relative">
@@ -289,10 +286,11 @@ const handleEditCar = (car) => {
         >
           {editingCarId ? 'Dəyişiklikləri Saxla' : 'Əlavə et'}
         </button>
-        </div>
-        
-        <div className='flex items-center gap-4 mb-6'>       
-          <input
+      </div>
+
+      {/* поиск */}
+      <div className='flex items-center gap-4 mb-6'>
+        <input
           type="text"
           placeholder="Axtarış"
           value={searchId}
@@ -301,7 +299,7 @@ const handleEditCar = (car) => {
         />
         <button
           onClick={handleSearch}
-          className="bg-blue-500 text-white  w-[20%] py-2 rounded"
+          className="bg-blue-500 text-white w-[20%] py-2 rounded"
         >
           Axtar
         </button>
@@ -310,9 +308,8 @@ const handleEditCar = (car) => {
       {searchResult && (
         <div className="border p-4 mb-6 rounded shadow bg-yellow-50">
           <h3 className="font-bold text-lg mb-2">Axtarış nəticəsi:</h3>
-          {/* <p><strong>ID:</strong> {searchResult.images}</p> */}
           {searchResult.images && searchResult.images.length > 0 && (
-          <img
+            <img
               src={searchResult.images[0]}
               alt={`${searchResult.marka} ${searchResult.model}`}
               className="h-40 w-full object-cover rounded mb-2"
@@ -324,8 +321,8 @@ const handleEditCar = (car) => {
           <p><strong>Əlavə tarixi:</strong> {new Date(searchResult.createdAt).toLocaleString()}</p>
           <div className="flex gap-2 mt-2">
             <button
-              onClick={() => setEditingCarId(searchResult._id)}
-              className="bg-blue-500 text-white px-3 py-1 rounded"
+              onClick={() => handleEditCar(searchResult)} 
+            className="bg-blue-500 text-white px-3 py-1 rounded"
             >
               Edit
             </button>
@@ -339,57 +336,58 @@ const handleEditCar = (car) => {
         </div>
       )}
 
+      {/* список машин */}
       <h2 className="text-xl font-semibold mb-2">Maşınların siyahısı</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-{cars.map(car => (
-  <div key={car._id} className="border p-4 rounded shadow">
-    {car.images && car.images.length > 0 && (
-      <img
-        src={car.images[0]}
-        alt={`${car.marka} ${car.model}`}
-        className="h-40 w-full object-cover rounded mb-2"
-      />
-    )}
-    <p className='text-white'><strong>{car.marka} {car.model}</strong></p>
-    <p className='text-white'>ID: {car.carId}</p>
-    <p className='text-white'>Qiymət: ${car.qiymet}</p>
-    <p className='text-white'>Tarix: {new Date(car.createdAt).toLocaleString()}</p>
+        {cars.map(car => (
+          <div key={car._id} className="border p-4 rounded shadow">
+            {car.images && car.images.length > 0 && (
+              <img
+                src={car.images[0]}
+                alt={`${car.marka} ${car.model}`}
+                className="h-40 w-full object-cover rounded mb-2"
+              />
+            )}
+            <p className='text-white'><strong>{car.marka} {car.model}</strong></p>
+            <p className='text-white'>ID: {car.carId}</p>
+            <p className='text-white'>Qiymət: ${car.qiymet}</p>
+            <p className='text-white'>Tarix: {new Date(car.createdAt).toLocaleString()}</p>
 
-    {/* Чекбокс “Продана” */}
-    <div className="flex items-center gap-2 mt-2">
-      <input
-        type="checkbox"
-        checked={car.sold}
-        onChange={async e => {
-          try {
-            await axios.patch(`https://kcc-back.onrender.com/api/cars/${car._id}/sold`, { sold: e.target.checked });
-            fetchCars(); // Обновление списка автомобилей
-          } catch (err) {
-            console.error('ERROR:', err);
-          }
-        }}
-      />
-      <label htmlFor={`sold-${car._id}`} className={`font-semibold ${car.sold ? 'text-red-500' : 'text-green-500'}`}>
-        {car.sold ? 'Satilib' : 'Stokda'}
-      </label>
-    </div>
-    <div className="flex gap-2 mt-2">
-      <button
-        onClick={() => handleEditCar(car)} // передаем весь объект машины
-        className="bg-blue-500 text-white px-2 py-1 rounded"
-      >
-        Edit
-      </button>
+            {/* Чекбокс “Продана” */}
+            <div className="flex items-center gap-2 mt-2">
+              <input
+                type="checkbox"
+                checked={car.sold}
+                onChange={async e => {
+                  try {
+                    await axios.patch(`https://kcc-back.onrender.com/api/cars/${car._id}/sold`, { sold: e.target.checked });
+                    fetchCars();
+                  } catch (err) {
+                    console.error('ERROR:', err);
+                  }
+                }}
+              />
+              <label className={`font-semibold ${car.sold ? 'text-red-500' : 'text-green-500'}`}>
+                {car.sold ? 'Satilib' : 'Stokda'}
+              </label>
+            </div>
 
-      <button
-        onClick={() => handleDeleteCar(car._id)}
-        className="bg-red-500 text-white px-2 py-1 rounded"
-      >
-        Delete
-      </button>
-    </div>
-  </div>
-  ))}
+            <div className="flex gap-2 mt-2">
+              <button
+                onClick={() => handleEditCar(car)}
+                className="bg-blue-500 text-white px-2 py-1 rounded"
+              >
+                Edit
+              </button>
+              <button
+                onClick={() => handleDeleteCar(car._id)}
+                className="bg-red-500 text-white px-2 py-1 rounded"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
