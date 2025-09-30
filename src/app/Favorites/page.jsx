@@ -3,8 +3,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { v4 as uuidv4 } from "uuid";
 import Link from 'next/link';
-import { IoIosHeartEmpty } from "react-icons/io";
-import { IoIosHeart } from "react-icons/io";
 import { FaWhatsapp } from "react-icons/fa";
 
 const Favorites = () => {
@@ -22,7 +20,7 @@ const Favorites = () => {
     fetchFavorites(userId);
   }, []);
 
-const fetchFavorites = async (userId) => {
+  const fetchFavorites = async (userId) => {
     try {
       const res = await axios.get(`https://kcc-back.onrender.com/api/favorites/${userId}`);
       const favCars = Array.isArray(res.data) ? res.data.filter(fav => fav && fav.carId) : [];
@@ -38,7 +36,6 @@ const fetchFavorites = async (userId) => {
       setLoading(false);
     }
   };
-
 
   const handlePrevImage = (carId) => {
     setCarImagesIndex(prev => {
@@ -69,9 +66,16 @@ const fetchFavorites = async (userId) => {
 
   return (
     <div className="p-2 bg-[#333333] text-white">
-      {favorites.length === 0 && <p>Seçilmiş Maşınlar yoxdur.</p>}
+      {favorites.length === 0 && 
+      
+      <div className='h-screen bg-[#4b4b4d] flex'>
+        <div className='h-fit mt-20'>
+            <img src='https://res.cloudinary.com/dsigbmb7p/image/upload/v1759236970/logo_like_yjmshq.jpg'/>
+            <p className='text-center mt-40`'>Elanlara daha sonra baxmag üçün onları<br/> seçilmişler siyahısına alava edin</p>
+        </div>
+      </div>}
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {favorites.map(fav => {
           const car = fav.carId;
           if (!car) return null;
@@ -82,14 +86,14 @@ const fetchFavorites = async (userId) => {
           )}`;
 
           return (
-            <div key={fav._id} className="border border-gray-500 bg-[#545454] p-1 rounded-lg shadow-md hover:shadow-xl transition cursor-pointer">
-              <Link href={`/Cars/${car._id}`} className="no-underline block">
+            <div key={fav._id} className="border border-gray-500 bg-[#545454] rounded-lg shadow-md hover:shadow-xl transition">
+              <Link href={`/Cars/${car._id}`} className="block no-underline">
                 {car.images?.length > 0 && (
-                  <div className="relative h-48 w-full overflow-hidden rounded-lg mb-2">
+                  <div className="relative w-full aspect-[4/3] rounded-t-lg overflow-hidden">
                     <img
                       src={car.images[currentIndex]}
                       alt={`${car.marka} ${car.model}`}
-                      className="h-full w-full object-cover"
+                      className="w-full h-full object-cover"
                       onError={(e) => { e.target.src = '/default-car.jpg'; }}
                     />
                     {car.images.length > 1 && (
@@ -106,56 +110,48 @@ const fetchFavorites = async (userId) => {
                         >
                           ›
                         </button>
-                        <p className="absolute bottom-1 right-2 bg-white bg-opacity-70 px-1 rounded text-sm">
+                        <p className="absolute bottom-1 right-2 bg-white bg-opacity-70 px-1 rounded text-sm text-black">
                           {currentIndex + 1} / {car.images.length} фото
                         </p>
                       </>
                     )}
                   </div>
                 )}
-                <p className="text-sm text-gray-100 mb-1">
-                  {new Date(car.createdAt).toLocaleString([], {
-                    year: 'numeric',
-                    month: '2-digit',
-                    day: '2-digit',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                  })}
-                </p>
+
+                <div className="p-2">
+                  <p className={`font-bold text-lg ${car.sold ? 'text-red-500 bg-white/10 rounded-lg p-1' : ''}`}>
+                    {car.sold ? 'SATILIB' : `${car.qiymet} $`}
+                  </p>
+
+                  <div className="flex gap-2 mt-1 text-sm">
+                    <p>{car.marka}</p>
+                    <p>{car.model}</p>
+                    <p>{car.versiya}</p>
+                  </div>
+
+                  <div className="flex gap-2 text-sm">
+                    <p>{car.il}</p>
+                    <p>{car.yanacaq}</p>
+                    <p>{car.km} km</p>
+                  </div>
+                </div>
               </Link>
 
-              <div>
-                <p className={`font-bold w-fit ${car.sold ? 'text-red-500 bg-white/10 rounded-lg p-1' : ''}`}>
-                  {car.sold ? 'SATILIB' : `${car.qiymet} $`}
-                </p>
-              </div>
-
-              <div className='flex gap-2 mt-1'>
-                <p>{car.marka}</p>
-                <p>{car.model}</p>
-                <p>{car.versiya}</p>
-              </div>
-              <div className='flex gap-2'>
-                <p>{car.il}</p>
-                <p>{car.yanacaq}</p>
-                <p>{car.km} km</p>
-              </div>
-
-              <div className="flex gap-2 mt-2">
+              <div className="flex gap-2 p-2">
                 <a
                   href={whatsappLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-green-500 text-white h-7 w-[70%] rounded-lg flex items-center justify-center gap-[10%]"
+                  className="bg-green-500 text-white flex-1 h-8 rounded-lg flex items-center justify-center gap-2"
                 >
-                  Əlaqə <FaWhatsapp size={20}/>
+                  Əlaqə <FaWhatsapp size={18}/>
                 </a>
-                <div
+                <button
                   onClick={() => removeFromFavorites(fav._id)}
-                  className="bg-red-500 text-white w-[30%] h-7 flex items-center justify-center rounded-lg cursor-pointer"
+                  className="bg-red-500 text-white w-12 h-8 rounded-lg flex items-center justify-center"
                 >
                   ❌
-                </div>
+                </button>
               </div>
             </div>
           );
