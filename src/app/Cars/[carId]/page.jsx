@@ -12,7 +12,7 @@ const CarDetail = () => {
   const [car, setCar] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [favorites, setFavorites] = useState([]);
-  const whatsappNumber = '+79658926701';
+  const whatsappNumber = '+994553801105';
 
   const fetchFavorites = async (userId) => {
     try {
