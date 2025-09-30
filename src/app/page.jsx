@@ -200,18 +200,19 @@ const Main = () => {
 
               <div>
                 <p className={`font-bold w-fit ${car.sold ? 'text-white bg-red-800 rounded-lg px-1' : ''}`}>
-                  {car.sold ? 'SATILIB' : `${car.qiymet} $`}
+                  {car.sold ? 'SATILIB' : `${car.qiymet} $ (Baki tehvil)`}
                 </p>
               </div>
               <div className='flex gap-2'>
-                <p>{car.marka || ''}</p>
-                <p>{car.model || ''}</p>
-                <p>{car.versiya || ''}</p>
+                <p>{car.marka || "\u00A0"}</p>
+                <p>{car.model || "\u00A0"}</p>
+                <p>{car.versiya || "\u00A0"}</p>
+                <p>{car.il || "\u00A0"}</p>
               </div>
+                              
               <div className='flex gap-2'>
-                <p>{car.il || ''}</p>
-                <p>{car.yanacaq || ''}</p>
-                <p>{car.km ? `${car.km} km` : ''}</p>
+                <p>{car.yanacaq || "\u00A0"}</p>
+                <p>{car.km ? `${car.km} km` : "\u00A0"}</p>
               </div>
               <div className="flex gap-2 mt-2">
                 <a
