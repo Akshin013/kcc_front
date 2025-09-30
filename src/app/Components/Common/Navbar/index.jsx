@@ -38,7 +38,7 @@ const Navbar = () => {
       </div>
 
       {/* ПК: бургер-меню */}
-      <div className="hidden md:flex flex-col fixed top-2 left-4 z-50">
+      <div className="hidden md:flex flex-col fixed top-2 left-4 z-50 lg:ml-48">
         <button 
           onClick={() => setIsOpen(!isOpen)} 
           className="bg-[#333333] p-3 rounded-full border border-gray-700"
