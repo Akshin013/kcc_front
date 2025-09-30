@@ -12,14 +12,14 @@ const AdminPage = () => {
     marka: '',
     model: '',
     versiya: '',
-    yerSayi: 5,
+    yerSayi: '',
     lyuk: false,
-    il: 2020,
-    km: 0,
+    il: '',
+    km: '',
     boya: '',
     deyisen: '',
     yanacaq: '',
-    qiymet: 0,
+    qiymet: '',
     sold: false
   });
   const [images, setImages] = useState([]);
@@ -27,8 +27,11 @@ const AdminPage = () => {
   const [searchId, setSearchId] = useState('');
   const [searchResult, setSearchResult] = useState(null);
 
+  // const ADMIN_USERNAME = 'kccauto';
+  // const ADMIN_PASSWORD = 'Mamediq1988';
   const ADMIN_USERNAME = 'a';
   const ADMIN_PASSWORD = 'a';
+
 
   // Получение машин
   const fetchCars = async () => {
@@ -88,14 +91,14 @@ const AdminPage = () => {
         marka: '',
         model: '',
         versiya: '',
-        yerSayi: 5,
+        yerSayi: '',
         lyuk: false,
-        il: 2020,
-        km: 0,
+        il: '',
+        km: '',
         boya: '',
         deyisen: '',
         yanacaq: '',
-        qiymet: 0,
+        qiymet: '',
         sold: false
       });
       setImages([]);
@@ -137,28 +140,34 @@ const AdminPage = () => {
   };
 
   // 🔹 при редактировании — заполняем форму
-  const handleEditCar = (car) => {
-    setNewCar({
-      marka: car.marka || '',
-      model: car.model || '',
-      versiya: car.versiya || '',
-      yerSayi: car.yerSayi || 5,
-      lyuk: car.lyuk || false,
-      il: car.il || 2020,
-      km: car.km || 0,
-      boya: car.boya || '',
-      deyisen: car.deyisen || '',
-      yanacaq: car.yanacaq || '',
-      qiymet: car.qiymet || 0,
-      sold: car.sold || false
-    });
-    setEditingCarId(car._id);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+const handleEditCar = (car) => {
+  setNewCar({
+    marka: car.marka || '',
+    model: car.model || '',
+    versiya: car.versiya || '',
+    yerSayi: car.yerSayi || '',
+    lyuk: car.lyuk || false,
+    il: car.il || '',
+    km: car.km || '',
+    boya: car.boya || '',
+    deyisen: car.deyisen || '',
+    yanacaq: car.yanacaq || '',
+    qiymet: car.qiymet || '',
+    sold: car.sold || false
+  });
+
+  setImages(car.images || []);
+  setVideos(car.videos || []);
+  setEditingCarId(car._id);
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
 
   if (!isLoggedIn) {
     return (
-      <div className="p-4">
+      <div className="p-4 flex justify-center">
+        <div>
         <h1 className="text-2xl text-white font-bold mb-4">Admin giriş</h1>
         <input
           type="text"
@@ -180,6 +189,7 @@ const AdminPage = () => {
         >
           Daxil ol
         </button>
+        </div>
       </div>
     );
   }
@@ -190,36 +200,36 @@ const AdminPage = () => {
       <h2 className="text-xl text-white font-semibold mb-2">{editingCarId ? 'Maşını düzəldin' : 'Əlavə et'}</h2>
 
       {/* форма добавления/редактирования */}
-      <div className="grid grid-cols-2 gap-2 mb-4">
-        {Object.keys(newCar).map(key => (
-          typeof newCar[key] === 'boolean' ? (
-            <label key={key} className="flex items-center gap-2 border p-2 text-white border-gray-400 rounded-lg">
-              <input
-                type="checkbox"
-                checked={newCar[key]}
-                onChange={e => setNewCar({
-                  ...newCar,
-                  [key]: e.target.checked
-                })}
-                className="h-5 w-5"
-              />
-              <span className="text-white">{key}</span>
-            </label>
-          ) : (
+    <div className="grid grid-cols-2 gap-2 mb-4">
+      {Object.keys(newCar).map(key => (
+        typeof newCar[key] === 'boolean' ? (
+          <label key={key} className="flex items-center gap-2 border p-2 text-white border-gray-400 rounded-lg">
             <input
-              key={key}
-              type={typeof newCar[key] === 'number' ? 'number' : 'text'}
-              placeholder={key}
-              value={newCar[key]}   // ✅ теперь инпуты заполняются
-              onChange={e => setNewCar({
-                ...newCar,
-                [key]: e.target.type === 'number' ? Number(e.target.value) : e.target.value
-              })}
-              className="border p-2 text-white border-gray-400 rounded-lg"
+              type="checkbox"
+              checked={newCar[key]}
+              onChange={e => setNewCar(prev => ({ ...prev, [key]: e.target.checked }))}
+              className="h-5 w-5"
             />
-          )
-        ))}
-      </div>
+            <span className="text-white">
+              {key === "sold" ? (newCar[key] ? "Satilib" : "Stokda") : (newCar[key] ? "Lyuk var" : "Lyuk yox")}
+            </span>
+          </label>
+        ) : (
+          <input
+            key={key}
+            type={typeof newCar[key] === 'number' ? 'number' : 'text'}
+            placeholder={key} // плейсхолдер
+            value={newCar[key] === '' || newCar[key] === 0 ? '' : newCar[key]} // если пусто или 0 — оставляем пустым
+            onChange={e => setNewCar(prev => ({
+              ...prev,
+              [key]: e.target.type === 'number' ? Number(e.target.value) : e.target.value
+            }))}
+            className="border p-2 text-white border-gray-400 rounded-lg"
+          />
+        )
+      ))}
+    </div>
+
 
       <div className="mb-4">
         <label className="block text-white mb-1 font-semibold">Foto:</label>
