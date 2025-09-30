@@ -7,6 +7,8 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import Link from "next/link";
 
 const Navbar = () => {
+
+  
   const [isOpen, setIsOpen] = useState(false);
 
   const links = [
@@ -14,11 +16,11 @@ const Navbar = () => {
     { href: '/Favorites', icon: <FaHeart size={38} color='#e62328'/>, label: 'SECILMISDER', color: '#e62328' },
     { href: '/about', icon: <TbInfoOctagonFilled size={32} color='#ebc032'/>, label: 'HAKKIMIZDA', color: '#ebc032' },
   ];
-
+// bg-[#333333]
   return (
     <>
       {/* Мобильная навигация (нижняя панель) */}
-      <div className="bg-[#333333] rounded-lg border border-gray-700 fixed bottom-0 left-0 w-full grid grid-cols-3 gap-3 md:hidden">
+      <div className="bg-[#333333] z-50 rounded-lg border border-gray-700 fixed bottom-0 left-0 w-full grid grid-cols-3 gap-3 md:hidden">
         {links.map((link, i) => (
           <Link key={i} href={link.href} className={`flex flex-col items-center gap-0.5 rounded-2xl p-2`}>
             {link.icon}
