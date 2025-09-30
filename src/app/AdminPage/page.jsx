@@ -153,6 +153,10 @@ const handleEditCar = (car) => {
   });
   setEditingCarId(car._id);
 
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
   // если нужно, можно подставить изображения и видео
   // setImages(car.images || []);
   // setVideos(car.videos || []);
