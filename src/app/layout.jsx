@@ -1,8 +1,10 @@
+'use client';
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from './Components/Common/Header'
 import Navbar from "./Components/Common/Navbar";
 import Link from "next/link";
+import { usePathname } from 'next/navigation';
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -20,12 +22,16 @@ import Link from "next/link";
 // };
 
 export default function RootLayout({ children }) {
+  const pathname = usePathname();
+
+  const hideNavbar = pathname.startsWith('/AdminPage'); // путь к AdminPage
+
   return (
     <html lang="en">
       <body className="bg-[#333333] lg:px-48">
         <Header/>
         {children}
-        <Navbar/>
+      {!hideNavbar && <Navbar />}
       </body>
     </html>
   );
