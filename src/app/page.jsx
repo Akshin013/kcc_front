@@ -146,21 +146,21 @@ const Main = () => {
         <select
           value={yearFilter}
           onChange={e => setYearFilter(e.target.value)}
-          className="border border-gray-400 rounded-lg p-2 w-1/2 bg-[#333333] text-white"
+          className="border cursor-pointer border-gray-400 rounded-lg p-2 w-1/2 bg-[#333333] text-white"
         >
-          <option value="">Bütün illər</option>
+          <option value="" className='cursor-pointer'>Bütün illər</option>
           {years.map(year => <option key={year} value={year}>{year}</option>)}
         </select>
           
         <select
           value={dateFilter}
           onChange={e => setDateFilter(e.target.value)}
-          className="border border-gray-400 rounded-lg p-2 w-1/2 bg-[#333333] text-white"
+          className="border cursor-pointer border-gray-400 rounded-lg p-2 w-1/2 bg-[#333333] text-white"
         >
-          <option value="all">Hamısı</option>
-          <option value="today">Bügün</option>
-          <option value="week">Bu həftə</option>
-          <option value="month">Bu ay</option>
+          <option value="cursor-pointer all">Hamısı</option>
+          <option value="cursor-pointer today">Bügün</option>
+          <option value="cursor-pointer week">Bu həftə</option>
+          <option value="cursor-pointer month">Bu ay</option>
         </select>
 
         </div>
