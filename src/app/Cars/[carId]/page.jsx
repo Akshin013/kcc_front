@@ -12,6 +12,7 @@ const CarDetail = () => {
   const [car, setCar] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [favorites, setFavorites] = useState([]);
+  const [isFullscreen, setIsFullscreen] = useState(false); // новое состояние
   const whatsappNumber = '+9940553801105';
 
   const fetchFavorites = async (userId) => {
@@ -32,14 +33,12 @@ const CarDetail = () => {
 
     try {
       if (favorites.includes(carId)) {
-        // Удалить из избранного
         const favRes = await axios.get(`https://kcc-back.onrender.com/api/favorites/${userId}`);
         const favItem = favRes.data.find(f => f.carId?._id === carId);
         if (!favItem) return;
         await axios.delete(`https://kcc-back.onrender.com/api/favorites/${favItem._id}`);
         setFavorites(prev => prev.filter(id => id !== carId));
       } else {
-        // Добавить в избранное
         await axios.post(`https://kcc-back.onrender.com/api/favorites`, { userId, carId });
         setFavorites(prev => [...prev, carId]);
       }
@@ -85,11 +84,14 @@ const CarDetail = () => {
         </Link>
       </div>
 
-      <div className="max-w-4xl mx-auto border border-gray-500 bg-[#545454] rounded-lg shadow-lg p-4">
+      <div className="max-w-4xl mx-auto border border-gray-500 bg-[#545454] rounded-lg shadow-lg p-3">
         <h1 className="text-2xl font-bold mb-4">{car.marka} {car.model} {car.versiya}</h1>
 
         {gallery.length > 0 && (
-          <div className="relative mb-4 w-full aspect-[16/9] overflow-hidden rounded-lg">
+          <div
+            className="relative mb-4 w-full aspect-[16/9] overflow-hidden rounded-lg cursor-pointer"
+            onClick={() => setIsFullscreen(true)} // открытие модалки
+          >
             {current.type === 'video' ? (
               <video src={current.src} controls className="w-full h-full object-cover rounded-lg"/>
             ) : (
@@ -98,8 +100,8 @@ const CarDetail = () => {
 
             {gallery.length > 1 && (
               <>
-                <button onClick={handlePrev} className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white px-2 py-1 rounded opacity-70 hover:opacity-100">‹</button>
-                <button onClick={handleNext} className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white px-2 py-1 rounded opacity-70 hover:opacity-100">›</button>
+                <button onClick={(e) => { e.stopPropagation(); handlePrev(); }} className="absolute cursor-pointer left-2 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white px-2 py-1 rounded opacity-70 hover:opacity-100">‹</button>
+                <button onClick={(e) => { e.stopPropagation(); handleNext(); }} className="absolute cursor-pointer right-2 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white px-2 py-1 rounded opacity-70 hover:opacity-100">›</button>
                 <p className="absolute bottom-2 right-2 bg-white bg-opacity-70 px-2 py-1 rounded text-sm text-black">{currentIndex + 1} / {gallery.length}</p>
               </>
             )}
@@ -137,6 +139,35 @@ const CarDetail = () => {
           </div>
         </div>
       </div>
+
+      {/* Модалка полноэкранная */}
+      {isFullscreen && (
+        <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50">
+        <button
+          className="absolute top-4 right-4 text-white text-3xl z-[100]"
+          onClick={(e) => {
+            e.stopPropagation(); // остановим всплытие
+            setIsFullscreen(false);
+          }}
+        >
+          ✕
+        </button>
+          <div className="relative w-full h-full flex items-center justify-center">
+            {current.type === 'video' ? (
+              <video src={current.src} controls autoPlay className="max-h-full max-w-full rounded-lg"/>
+            ) : (
+              <img src={current.src} alt="car fullscreen" className="max-h-full max-w-full rounded-lg"/>
+            )}
+
+            {gallery.length > 1 && (
+              <>
+                <button onClick={handlePrev} className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white text-4xl">‹</button>
+                <button onClick={handleNext} className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white text-4xl">›</button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
