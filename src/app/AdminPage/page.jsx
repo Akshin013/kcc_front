@@ -29,11 +29,45 @@ const AdminPage = () => {
 
   const ADMIN_USERNAME = 'kccauto';
   const ADMIN_PASSWORD = 'Mamediq1988';
-  // const ADMIN_USERNAME = 'a';
-  // const ADMIN_PASSWORD = 'a';
 
+  // 🔹 функция для водяного знака
+  const addWatermark = (file, watermarkText = "KCCAUTO") => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = e => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
 
-  // Получение машин
+          canvas.width = img.width;
+          canvas.height = img.height;
+
+          // исходное изображение
+          ctx.drawImage(img, 0, 0);
+
+          // стиль текста
+          ctx.font = `${Math.floor(img.width / 15)}px Arial`;
+          ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "midle";
+
+          // наносим внизу справа
+          ctx.fillText(watermarkText, img.width / 2, img.height / 2);
+
+          // обратно в File
+          canvas.toBlob(blob => {
+            resolve(new File([blob], file.name, { type: file.type }));
+          }, file.type);
+        };
+        img.src = e.target.result;
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  };
+
+  // получение машин
   const fetchCars = async () => {
     try {
       const res = await axios.get('https://kcc-back.onrender.com/api/cars');
@@ -53,22 +87,19 @@ const AdminPage = () => {
     }
   };
 
-  // Добавление или редактирование машины
+  // добавление/редактирование
   const handleAddOrUpdateCar = async () => {
     try {
       const formData = new FormData();
 
-      // данные машины
       Object.keys(newCar).forEach(key => {
         formData.append(key, newCar[key]);
       });
 
-      // картинки
       if (images.length > 0) {
         images.forEach(file => formData.append("images", file));
       }
 
-      // видео
       if (videos.length > 0) {
         videos.forEach(file => formData.append("videos", file));
       }
@@ -139,56 +170,54 @@ const AdminPage = () => {
     }
   };
 
-  // 🔹 при редактировании — заполняем форму
-const handleEditCar = (car) => {
-  setNewCar({
-    marka: car.marka || '',
-    model: car.model || '',
-    versiya: car.versiya || '',
-    yerSayi: car.yerSayi || '',
-    lyuk: car.lyuk || false,
-    il: car.il || '',
-    km: car.km || '',
-    boya: car.boya || '',
-    deyisen: car.deyisen || '',
-    yanacaq: car.yanacaq || '',
-    qiymet: car.qiymet || '',
-    sold: car.sold || false
-  });
+  const handleEditCar = (car) => {
+    setNewCar({
+      marka: car.marka || '',
+      model: car.model || '',
+      versiya: car.versiya || '',
+      yerSayi: car.yerSayi || '',
+      lyuk: car.lyuk || false,
+      il: car.il || '',
+      km: car.km || '',
+      boya: car.boya || '',
+      deyisen: car.deyisen || '',
+      yanacaq: car.yanacaq || '',
+      qiymet: car.qiymet || '',
+      sold: car.sold || false
+    });
 
-  setImages(car.images || []);
-  setVideos(car.videos || []);
-  setEditingCarId(car._id);
+    setImages(car.images || []);
+    setVideos(car.videos || []);
+    setEditingCarId(car._id);
 
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-};
-
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   if (!isLoggedIn) {
     return (
       <div className="p-4 flex justify-center">
         <div>
-        <h1 className="text-2xl text-white font-bold mb-4">Admin giriş</h1>
-        <input
-          type="text"
-          placeholder="Login"
-          value={username}
-          onChange={e => setUsername(e.target.value)}
-          className="border p-2 mb-2 w-full text-white border-gray-400 rounded-lg"
-        />
-        <input
-          type="password"
-          placeholder="Parol"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          className="border p-2 mb-2 w-full text-white border-gray-400 rounded-lg"
-        />
-        <button
-          onClick={handleLogin}
-          className="bg-blue-500 text-white px-4 py-2 w-full rounded-lg cursor-pointer"
-        >
-          Daxil ol
-        </button>
+          <h1 className="text-2xl text-white font-bold mb-4">Admin giriş</h1>
+          <input
+            type="text"
+            placeholder="Login"
+            value={username}
+            onChange={e => setUsername(e.target.value)}
+            className="border p-2 mb-2 w-full text-white border-gray-400 rounded-lg"
+          />
+          <input
+            type="password"
+            placeholder="Parol"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            className="border p-2 mb-2 w-full text-white border-gray-400 rounded-lg"
+          />
+          <button
+            onClick={handleLogin}
+            className="bg-blue-500 text-white px-4 py-2 w-full rounded-lg cursor-pointer"
+          >
+            Daxil ol
+          </button>
         </div>
       </div>
     );
@@ -199,49 +228,54 @@ const handleEditCar = (car) => {
       <h1 className="text-2xl text-white font-bold mb-4">Admin panel</h1>
       <h2 className="text-xl text-white font-semibold mb-2">{editingCarId ? 'Maşını düzəldin' : 'Əlavə et'}</h2>
 
-      {/* форма добавления/редактирования */}
-    <div className="grid grid-cols-2 gap-2 mb-4">
-      {Object.keys(newCar).map(key => (
-        typeof newCar[key] === 'boolean' ? (
-          <label key={key} className="flex items-center gap-2 border p-2 text-white border-gray-400 rounded-lg">
+      {/* форма добавления */}
+      <div className="grid grid-cols-2 gap-2 mb-4">
+        {Object.keys(newCar).map(key => (
+          typeof newCar[key] === 'boolean' ? (
+            <label key={key} className="flex items-center gap-2 border p-2 text-white border-gray-400 rounded-lg">
+              <input
+                type="checkbox"
+                checked={newCar[key]}
+                onChange={e => setNewCar(prev => ({ ...prev, [key]: e.target.checked }))}
+                className="h-5 w-5 cursor-pointer"
+              />
+              <span className="text-white">
+                {key === "sold" ? (newCar[key] ? "Satilib" : "Stokda") : (newCar[key] ? "Lyuk var" : "Lyuk yox")}
+              </span>
+            </label>
+          ) : (
             <input
-              type="checkbox"
-              checked={newCar[key]}
-              onChange={e => setNewCar(prev => ({ ...prev, [key]: e.target.checked }))}
-              className="h-5 w-5"
+              key={key}
+              type={typeof newCar[key] === 'number' ? 'number' : 'text'}
+              placeholder={key}
+              value={newCar[key] === '' || newCar[key] === 0 ? '' : newCar[key]}
+              onChange={e => setNewCar(prev => ({
+                ...prev,
+                [key]: e.target.type === 'number' ? Number(e.target.value) : e.target.value
+              }))}
+              className="border p-2 text-white border-gray-400 rounded-lg"
             />
-            <span className="text-white">
-              {key === "sold" ? (newCar[key] ? "Satilib" : "Stokda") : (newCar[key] ? "Lyuk var" : "Lyuk yox")}
-            </span>
-          </label>
-        ) : (
-          <input
-            key={key}
-            type={typeof newCar[key] === 'number' ? 'number' : 'text'}
-            placeholder={key} // плейсхолдер
-            value={newCar[key] === '' || newCar[key] === 0 ? '' : newCar[key]} // если пусто или 0 — оставляем пустым
-            onChange={e => setNewCar(prev => ({
-              ...prev,
-              [key]: e.target.type === 'number' ? Number(e.target.value) : e.target.value
-            }))}
-            className="border p-2 text-white border-gray-400 rounded-lg"
-          />
-        )
-      ))}
-    </div>
+          )
+        ))}
+      </div>
 
-
+      {/* фото */}
       <div className="mb-4">
         <label className="block text-white mb-1 font-semibold">Foto:</label>
         <input
           type="file"
           multiple
           accept="image/*"
-          onChange={e => setImages(prev => [...prev, ...Array.from(e.target.files)])}
+          onChange={async e => {
+            const files = Array.from(e.target.files);
+            const processed = await Promise.all(files.map(f => addWatermark(f, "KCCAUTO")));
+            setImages(prev => [...prev, ...processed]);
+          }}
           className="border p-2 w-full text-white border-gray-400 rounded-lg"
         />
       </div>
 
+      {/* видео */}
       <div className="mb-4">
         <label className="block text-white mb-1 font-semibold">Video:</label>
         <input
@@ -253,48 +287,46 @@ const handleEditCar = (car) => {
         />
       </div>
 
-      {/* предпросмотр новых фото/видео */}
+      {/* предпросмотр */}
       <div className="mb-4 flex gap-2 flex-wrap">
- {images.map((file, idx) => (
-  <div key={idx} className="relative">
-    <img
-      src={file instanceof File ? URL.createObjectURL(file) : file}
-      alt={`preview ${idx}`}
-      className="h-24 w-24 object-cover rounded"
-    />
-    <button
-      type="button"
-      onClick={() => setImages(images.filter((_, i) => i !== idx))}
-      className="absolute top-0 right-0 bg-red-500 text-white text-xs px-1 rounded"
-    >
-      X
-    </button>
-  </div>
-))}
-
-{videos.map((file, idx) => (
-  <div key={idx} className="relative">
-    <video
-      src={file instanceof File ? URL.createObjectURL(file) : file}
-      className="h-24 w-24 object-cover rounded"
-      controls
-    />
-    <button
-      type="button"
-      onClick={() => setVideos(videos.filter((_, i) => i !== idx))}
-      className="absolute top-0 right-0 bg-red-500 text-white text-xs px-1 rounded"
-    >
-      X
-    </button>
-  </div>
-))}
-
+        {images.map((file, idx) => (
+          <div key={idx} className="relative">
+            <img
+              src={file instanceof File ? URL.createObjectURL(file) : file}
+              alt={`preview ${idx}`}
+              className="h-24 w-24 object-cover rounded"
+            />
+            <button
+              type="button"
+              onClick={() => setImages(images.filter((_, i) => i !== idx))}
+              className="absolute cursor-pointer top-0 right-0 bg-red-500 text-white text-xs px-1 rounded"
+            >
+              X
+            </button>
+          </div>
+        ))}
+        {videos.map((file, idx) => (
+          <div key={idx} className="relative">
+            <video
+              src={file instanceof File ? URL.createObjectURL(file) : file}
+              className="h-24  w-24 object-cover rounded"
+              controls
+            />
+            <button
+              type="button"
+              onClick={() => setVideos(videos.filter((_, i) => i !== idx))}
+              className="absolute cursor-pointer top-0 right-0 bg-red-500 text-white text-xs px-1 rounded"
+            >
+              X
+            </button>
+          </div>
+        ))}
       </div>
 
       <div className="flex items-center gap-4 mb-6">
         <button
           onClick={handleAddOrUpdateCar}
-          className="bg-green-500 text-white px-4 py-2 w-full rounded"
+          className="bg-green-500 cursor-pointer text-white px-4 py-2 w-full rounded"
         >
           {editingCarId ? 'Dəyişiklikləri Saxla' : 'Əlavə et'}
         </button>
@@ -307,11 +339,11 @@ const handleEditCar = (car) => {
           placeholder="Axtarış"
           value={searchId}
           onChange={e => setSearchId(e.target.value)}
-          className="border text-white p-2 border-gray-400 w-[80%] rounded-lg"
+          className="border text-white p-2  border-gray-400 w-[80%] rounded-lg"
         />
         <button
           onClick={handleSearch}
-          className="bg-blue-500 text-white w-[20%] py-2 rounded"
+          className="bg-blue-500 cursor-pointer text-white w-[20%] py-2 rounded"
         >
           Axtar
         </button>
@@ -334,13 +366,13 @@ const handleEditCar = (car) => {
           <div className="flex gap-2 mt-2">
             <button
               onClick={() => handleEditCar(searchResult)} 
-            className="bg-blue-500 text-white px-3 py-1 rounded"
+              className="bg-blue-500 cursor-pointer text-white px-3 py-1 rounded"
             >
               Edit
             </button>
             <button
               onClick={() => handleDeleteCar(searchResult._id)}
-              className="bg-red-500 text-white px-3 py-1 rounded"
+              className="bg-red-500 cursor-pointer text-white px-3 py-1 rounded"
             >
               Delete
             </button>
@@ -348,7 +380,7 @@ const handleEditCar = (car) => {
         </div>
       )}
 
-      {/* список машин */}
+      {/* список */}
       <h2 className="text-xl text-white font-semibold mb-2">Maşınların siyahısı</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {cars.map(car => (
@@ -365,9 +397,9 @@ const handleEditCar = (car) => {
             <p className='text-white'>Qiymət: ${car.qiymet}</p>
             <p className='text-white'>Tarix: {new Date(car.createdAt).toLocaleString()}</p>
 
-            {/* Чекбокс “Продана” */}
-            <div className="flex items-center gap-2 mt-2">
+            <div className="flex  items-center gap-2 mt-2">
               <input
+                className='cursor-pointer'
                 type="checkbox"
                 checked={car.sold}
                 onChange={async e => {
@@ -387,13 +419,13 @@ const handleEditCar = (car) => {
             <div className="flex gap-2 mt-2">
               <button
                 onClick={() => handleEditCar(car)}
-                className="bg-blue-500 text-white px-2 py-1 rounded"
+                className="bg-blue-500 cursor-pointer text-white px-2 py-1 rounded"
               >
                 Edit
               </button>
               <button
                 onClick={() => handleDeleteCar(car._id)}
-                className="bg-red-500 text-white px-2 py-1 rounded"
+                className="bg-red-500 cursor-pointer text-white px-2 py-1 rounded"
               >
                 Delete
               </button>
