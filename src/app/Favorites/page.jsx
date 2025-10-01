@@ -68,7 +68,7 @@ const Favorites = () => {
     <div className="p-2 mb-20  bg-[#333333] text-white">
       {favorites.length === 0 && 
       
-      <div className='h-screen bg-[#4b4b4d] flex'>
+      <div className='h-screen bg-[#4b4b4d] flex justify-center'>
         <div className='h-fit mt-20'>
             <img src='https://res.cloudinary.com/dsigbmb7p/image/upload/v1759236970/logo_like_yjmshq.jpg'/>
             <p className='text-center mt-40`'>Elanlara daha sonra baxmag üçün onları<br/> seçilmişler siyahısına alava edin</p>
@@ -148,7 +148,7 @@ const Favorites = () => {
                 </a>
                 <button
                   onClick={() => removeFromFavorites(fav._id)}
-                  className="bg-red-500 text-white w-12 h-8 rounded-lg flex items-center justify-center"
+                  className="bg-red-500 cursor-pointer text-white w-12 h-8 rounded-lg flex items-center justify-center"
                 >
                   ❌
                 </button>
