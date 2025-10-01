@@ -24,11 +24,11 @@ const About = () => {
         </div>
 
         {/* Картинка справа */}
-        <div className="md:w-1/2 relative group overflow-hidden rounded-xl shadow-2xl">
+        <div className="md:w-1/2 relative group  overflow-hidden rounded-xl shadow-2xl">
           <img
             src="https://res.cloudinary.com/dvm6my9na/image/upload/v1759139388/about_img1_suq8or.jpg"
             alt="KCC Auto"
-            className="w-full h-[380px] object-cover object-left transition-transform duration-700 group-hover:scale-105"
+            className="w-full h-[380px] object-cover object-[14%] transition-transform duration-700 group-hover:scale-105 lg:h-[450px]"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl"></div>
         </div>
@@ -41,7 +41,7 @@ const About = () => {
           <h2 className="text-4xl md:text-5xl font-extrabold">
             Proses sadə, təhlükəsiz və şəffafdır
           </h2>
-          <p className="leading-relaxed">
+          <p className="leading-relaxed ">
             Biz Koreyada auksionlarda və Encar platformasında şəxsən iştirak edərək, sizin üçün ən sərfəli və keyfiyyətli avtomobili seçirik. 
             Sifarişinizin hər addımında sizi məlumatlandırır, avtomobili kimyəvi təmizləyərək, Azərbaycana çatdırırıq.
           </p>
@@ -52,7 +52,7 @@ const About = () => {
           <img
             src="https://res.cloudinary.com/dvm6my9na/image/upload/v1759066463/about_img2_ln45qm.jpg"
             alt="KCC Auto"
-            className="w-full h-[380px] object-cover transition-transform duration-700 group-hover:scale-105"
+            className="w-full h-[380px] object-cover transition-transform duration-700 group-hover:scale-105 lg:h-[450px]"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl"></div>
         </div>
