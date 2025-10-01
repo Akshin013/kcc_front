@@ -157,10 +157,10 @@ const Main = () => {
           onChange={e => setDateFilter(e.target.value)}
           className="border cursor-pointer border-gray-400 rounded-lg p-2 w-1/2 bg-[#333333] text-white"
         >
-          <option value="cursor-pointer all">Hamısı</option>
-          <option value="cursor-pointer today">Bügün</option>
-          <option value="cursor-pointer week">Bu həftə</option>
-          <option value="cursor-pointer month">Bu ay</option>
+          <option className='cursor-pointer' value="all">Hamısı</option>
+          <option className='cursor-pointer' value="today">Bügün</option>
+          <option className='cursor-pointer' value="week">Bu həftə</option>
+          <option className='cursor-pointer' value="month">Bu ay</option>
         </select>
 
         </div>
