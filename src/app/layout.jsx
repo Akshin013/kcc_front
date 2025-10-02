@@ -17,10 +17,11 @@ export default function RootLayout({ children }) {
   const pathname = usePathname();
   const hideNavbar = pathname.startsWith('/AdminPage'); // путь к AdminPage
 
+  // ЗАПИСАТТЬ В ТИТЛ KCC
   return (
     <html lang="en">
       <head>
-        <title>Мой сайт</title>
+        <title>KCC Auto</title>
         
         <link rel="icon" type="image/png" sizes="16x16" href="https://res.cloudinary.com/dsigbmb7p/image/upload/c_fill,w_16,h_16,f_auto,q_auto/v1759259467/logo_blank_c5xuyi.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="https://res.cloudinary.com/dsigbmb7p/image/upload/c_fill,w_32,h_32,f_auto,q_auto/v1759259467/logo_blank_c5xuyi.png" />
