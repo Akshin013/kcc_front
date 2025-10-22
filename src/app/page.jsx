@@ -202,7 +202,7 @@ const Main = () => {
                 <p className={`font-bold w-fit ${car.sold ? 'text-white bg-red-800 rounded-lg px-1' : ''}`}>
                   {car.sold ? 'SATILIB' : `${car.qiymet} $ (Baki tehvil)`}
                 </p>
-                <p>{car.vin}</p>
+                <p>{car.vin || "\u00A0"}</p>
               </div>
               <div className='flex gap-1'>
                 <p>{car.marka || "\u00A0"}</p>
