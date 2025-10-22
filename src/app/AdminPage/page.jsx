@@ -227,6 +227,18 @@ const AdminPage = () => {
     <div className="p-4">
       <h1 className="text-2xl text-white font-bold mb-4">Admin panel</h1>
       <h2 className="text-xl text-white font-semibold mb-2">{editingCarId ? 'Maşını düzəldin' : 'Əlavə et'}</h2>
+    {/* VIN */}
+<div className="mb-2">
+  <label className="block text-white font-semibold mb-1">VIN:</label>
+  <input
+    type="text"
+    placeholder="VIN kodu"
+    value={newCar.vin || ''}
+    onChange={e => setNewCar(prev => ({ ...prev, vin: e.target.value }))}
+    className="border p-2 w-full text-white border-gray-400 rounded-lg"
+  />
+</div>
+    
 
       {/* форма добавления */}
       <div className="grid grid-cols-2 gap-2 mb-4">
