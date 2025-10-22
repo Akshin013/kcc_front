@@ -122,6 +122,7 @@ const CarDetail = () => {
           <p><strong>Boya:</strong> {car.boya}</p>
           <p><strong>Dəyişən:</strong> {car.deyisen}</p>
           <p><strong>Yanacaq:</strong> {car.yanacaq}</p>
+          <p><strong>Vin:</strong> {car.vin || "\u00A0"}</p>
         </div>
 
         <div className="mt-4 flex gap-2">
