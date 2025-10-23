@@ -121,7 +121,6 @@ const [newCar, setNewCar] = useState({
 
       alert(editingCarId ? "Maşın uğurla yeniləndi!" : "Maşın uğurla əlavə edildi!");
       setNewCar({
-        vin: '',
         marka: '',
         model: '',
         versiya: '',
@@ -175,7 +174,6 @@ const [newCar, setNewCar] = useState({
 
   const handleEditCar = (car) => {
     setNewCar({
-      vin: car.vin || '',
       marka: car.marka || '',
       model: car.model || '',
       versiya: car.versiya || '',
@@ -410,7 +408,10 @@ const [newCar, setNewCar] = useState({
                 className="h-40 w-full object-cover rounded mb-2"
               />
             )}
+            <div className='flex gap-4'>
             <p className='text-white'><strong>{car.marka} {car.model}</strong></p>
+            <p className='text-white'><strong>Vin: {car.vin}</strong></p>
+            </div>
             <p className='text-white'>ID: {car.carId}</p>
             <p className='text-white'>Qiymət: ${car.qiymet}</p>
             <p className='text-white'>Tarix: {new Date(car.createdAt).toLocaleString()}</p>
