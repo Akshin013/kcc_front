@@ -68,9 +68,6 @@ const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
 };
 
-
-
-
     const fetchFavorites = async (userId) => {
       try {
         const res = await axios.get(`https://kcc-back.onrender.com/api/favorites/${userId}`);
