@@ -15,7 +15,6 @@
     const [yearFilter, setYearFilter] = useState("");
     const [dateFilter, setDateFilter] = useState("all");
     const [carImagesIndex, setCarImagesIndex] = useState({});
-    // const whatsappNumber = '+79658926701';
     const whatsappNumber = '+994553801105';
 
     useEffect(() => {
