@@ -62,7 +62,15 @@ const Favorites = () => {
     }
   };
 
-  if (loading) return <div>Yüklənir...</div>;
+  if (loading)
+    return (
+      <div className="flex items-center justify-center h-screen bg-[#333333]">
+        <div className="flex flex-col items-center">
+          <div className="w-16 h-16 border-4 border-t-transparent border-white rounded-full animate-spin"></div>
+          <p className="mt-4 text-gray-300 text-lg animate-pulse">Yüklənir...</p>
+        </div>
+      </div>
+    );
 
   return (
     <div className="p-2 mb-20  bg-[#333333] text-white">
@@ -127,10 +135,10 @@ const Favorites = () => {
                     <p>{car.marka}</p>
                     <p>{car.model}</p>
                     <p>{car.versiya}</p>
+                                        <p>{car.il}</p>
                   </div>
 
                   <div className="flex gap-2 text-sm">
-                    <p>{car.il}</p>
                     <p>{car.yanacaq}</p>
                     <p>{car.km} km</p>
                   </div>
