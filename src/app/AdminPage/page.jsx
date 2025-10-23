@@ -339,15 +339,21 @@ const [newCar, setNewCar] = useState({
         ))}
       </div>
 
-      <div className="flex items-center gap-4 mb-6">
-        <button
-          onClick={handleAddOrUpdateCar}
-          className="bg-green-500 cursor-pointer text-white px-4 py-2 w-full rounded"
-        >
-          {editingCarId ? 'Dəyişiklikləri Saxla' : 'Əlavə et'}
-        </button>
+      <div className="flex items-center gap-4 mb-6"><button
+  onClick={handleAddOrUpdateCar}
+  className="
+    bg-green-500 
+    cursor-pointer 
+    text-white 
+    px-4 py-2 w-full 
+    rounded 
+    hover:bg-green-600 
+    active:bg-green-700 
+    transition-colors 
+    duration-200">
+  {editingCarId ? 'Dəyişiklikləri Saxla' : 'Əlavə et'}
+</button>
       </div>
-
       {/* поиск */}
       <div className='flex items-center gap-4 mb-6'>
         <input
