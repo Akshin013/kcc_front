@@ -1,4 +1,5 @@
 'use client';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import axios from 'axios';
@@ -15,6 +16,23 @@ const CarDetail = () => {
   const [isFullscreen, setIsFullscreen] = useState(false); // новое состояние
   const whatsappNumber = '+9940553801105';
 
+  const router = useRouter();
+  const [fromPage, setFromPage] = useState('main');
+
+  useEffect(() => {
+    const page = localStorage.getItem('fromPage');
+    if (page) setFromPage(page);
+  }, []);
+
+  const handleBack = () => {
+    if (fromPage === 'favorites') router.push('/Favorites');
+    else router.push('/');
+  };
+   
+
+console.log(fromPage);
+
+  
   const fetchFavorites = async (userId) => {
     try {
       const res = await axios.get(`https://kcc-back.onrender.com/api/favorites/${userId}`);
@@ -86,12 +104,14 @@ const CarDetail = () => {
 
   return (
     <div className="p-4 bg-[#333333] min-h-screen text-white">
-      <div className="mb-4">
-        <Link href="/" className="inline-flex items-center gap-2 bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg">
-          <IoIosArrowBack size={20} /> Ana səhifə
-        </Link>
-      </div>
-
+      <div>
+      <button
+        onClick={handleBack}
+        className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded mb-4"
+      >
+        ← Geri
+      </button>
+</div>
       <div className="max-w-4xl mx-auto border border-gray-500 bg-[#545454] rounded-lg shadow-lg p-3">
         <h1 className="text-2xl font-bold mb-4">{car.marka} {car.model} {car.versiya}</h1>
 
