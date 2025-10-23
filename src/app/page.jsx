@@ -5,8 +5,8 @@
   import Link from 'next/link';
   import { IoIosHeartEmpty, IoIosHeart } from "react-icons/io";
   import { FaWhatsapp } from "react-icons/fa";
-
-  const Main = () => {
+  import { FaLongArrowAltUp } from "react-icons/fa";  
+    const Main = () => {
     const [cars, setCars] = useState([]);
     const [filteredCars, setFilteredCars] = useState([]);
     const [favorites, setFavorites] = useState([]);
@@ -48,6 +48,29 @@
         setLoading(false);
       }
     };
+
+    const [showScrollTop, setShowScrollTop] = useState(false);
+
+useEffect(() => {
+  const handleScroll = () => {
+    if (window.scrollY > 300) { // после 300px прокрутки
+      setShowScrollTop(true);
+    } else {
+      setShowScrollTop(false);
+    }
+  };
+
+  window.addEventListener("scroll", handleScroll);
+  return () => window.removeEventListener("scroll", handleScroll);
+}, []);
+
+
+const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
+
+
+
 
     const fetchFavorites = async (userId) => {
       try {
@@ -140,6 +163,7 @@
       return true;
     });
 
+      
     return (
       <div className="p-2 bg-[#333333] text-white">
         <div className="flex flex-col md:flex-row gap-2 mb-4">
@@ -188,6 +212,7 @@
                   <div className="h-48 w-full overflow-hidden rounded-lg bg-gray-400 relative">
                     {car.images?.[0] && (
                       <img
+                      loading="lazy"
                         src={car.images[0]}
                         alt={`${car.marka} ${car.model}`}
                         className="h-full w-full object-cover absolute top-0 left-0"
@@ -210,7 +235,7 @@
                   <p className={`font-bold w-fit ${car.sold ? 'text-white bg-red-800 rounded-lg px-1' : ''}`}>
                     {car.sold ? 'SATILIB' : `${car.qiymet} $ (Baki tehvil)`}
                   </p>
-                  <p>{car.vin || "\u00A0"}</p>
+                  <p>Vin: {car.vin || "\u00A0"}</p>
                 </div>
                 <div className='flex gap-1'>
                   <p>{car.marka || "\u00A0"}</p>
@@ -229,7 +254,7 @@
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation(car.carId)}
-                    className="bg-green-500 text-white h-7 w-[70%] rounded-lg flex items-center justify-center gap-[10%]">
+                    className="bg-green-500 text-white h-7 w-[70%] rounded-lg flex items-center justify-center gap-[10%] hover:bg-amber-400">
                     Əlaqə <FaWhatsapp size={25}/>
                   </a>
                   <div
@@ -241,9 +266,19 @@
               </div>
             );
           })}
+          
         </div>
+
+{showScrollTop && (
+  <button
+    onClick={scrollToTop}
+    className="fixed z-50 right-5 bottom-20 md:bottom-5 bg-[#ebc032] hover:bg-yellow-600 text-white p-5 md:mr-9  px-5 rounded-full shadow-lg transition"
+  >
+    <FaLongArrowAltUp size={27}/>
+  </button>
+)}
+
       </div>
     );
   };
-
   export default Main;
