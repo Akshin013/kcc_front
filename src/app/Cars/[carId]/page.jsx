@@ -61,7 +61,15 @@ const CarDetail = () => {
       .catch(err => console.error(err));
   }, [carId]);
 
-  if (!car) return <div className="p-4 text-white">Загрузка...</div>;
+  if (!car)
+    return (
+      <div className="flex items-center justify-center h-screen bg-[#333333]">
+        <div className="flex flex-col items-center">
+          <div className="w-16 h-16 border-4 border-t-transparent border-white rounded-full animate-spin"></div>
+          <p className="mt-4 text-gray-300 text-lg animate-pulse">Yüklənir...</p>
+        </div>
+      </div>
+    );
 
   const gallery = [
     ...(car.videos || []).map(src => ({ type: 'video', src })),
@@ -122,7 +130,7 @@ const CarDetail = () => {
           <p><strong>Boya:</strong> {car.boya}</p>
           <p><strong>Dəyişən:</strong> {car.deyisen}</p>
           <p><strong>Yanacaq:</strong> {car.yanacaq}</p>
-          <p><strong>Vin:</strong> {car.vin || "\u00A0"}</p>
+          <p><strong>Vin:</strong> {car.vin || "000"}</p>
         </div>
 
         <div className="mt-4 flex gap-2">
