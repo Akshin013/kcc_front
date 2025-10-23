@@ -15,6 +15,7 @@
     const [yearFilter, setYearFilter] = useState("");
     const [dateFilter, setDateFilter] = useState("all");
     const [carImagesIndex, setCarImagesIndex] = useState({});
+    // const whatsappNumber = '+79658926701';
     const whatsappNumber = '+994553801105';
 
     useEffect(() => {
@@ -67,6 +68,9 @@ useEffect(() => {
 const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
 };
+
+
+
 
     const fetchFavorites = async (userId) => {
       try {
@@ -196,7 +200,7 @@ const scrollToTop = () => {
 
         <div className="grid mb-20 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
           {filteredByDate.map(car => {
-            const message = `Salam! Mən bu maşınla maraqlanıram: ${car.marka} ${car.model}, İl: ${car.il}, Qiymət: ${car.qiymet}$ (Car ID: ${car.carId})`;
+            const message = `Salam! Mən bu maşınla maraqlanıram: ${car.marka} ${car.model}, İl: ${car.il}, Qiymət: ${car.qiymet}$ (Car ID: ${car.carId}), Vin: ${car.vin || "-"}`;
             const whatsappLink = `https://wa.me/${whatsappNumber.replace('+','')}/?text=${encodeURIComponent(message)}`;
             const isFavorite = favorites.includes(car._id);
             const currentIndex = carImagesIndex[car._id] || 0;
@@ -254,7 +258,7 @@ const scrollToTop = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation(car.carId)}
-                    className="bg-green-500 text-white h-7 w-[70%] rounded-lg flex items-center justify-center gap-[10%] hover:bg-amber-400">
+                    className="bg-green-500 text-white h-7 w-[70%] rounded-lg flex items-center justify-center gap-[10%] hover:bg-green-600">
                     Əlaqə <FaWhatsapp size={25}/>
                   </a>
                   <div
