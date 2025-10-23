@@ -207,7 +207,7 @@ const scrollToTop = () => {
 
             return (
               <div key={car._id} className="border border-gray-500 bg-[#545454] p-1 rounded-lg shadow-md hover:shadow-xl transition cursor-pointer">
-                <Link href={`/Cars/${car._id}`} onClick={() => localStorage.setItem('fromFavorites', 'false')} className="no-underline block">
+                <Link href={`/Cars/${car._id}`} onClick={() => localStorage.setItem('fromPage', 'main')} className="no-underline block">
                   {/* Картинка с серым фоном */}
                   <div className="h-48 w-full overflow-hidden rounded-lg bg-gray-400 relative">
                     {car.images?.[0] && (
