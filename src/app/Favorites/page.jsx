@@ -95,7 +95,7 @@ const Favorites = () => {
 
           return (
             <div key={fav._id} className="border border-gray-500 bg-[#545454] rounded-lg shadow-md hover:shadow-xl transition">
-              <Link href={`/Cars/${car._id}`} className="block no-underline">
+              <Link href={`/Cars/${car._id}`}   onClick={() => localStorage.setItem('fromFavorites', 'true')} className="block no-underline">
                 {car.images?.length > 0 && (
                   <div className="relative w-full bg-red-900 aspect-[4/3] rounded-t-lg overflow-hidden">
                     <img
