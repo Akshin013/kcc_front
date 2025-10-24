@@ -207,17 +207,16 @@ const scrollToTop = () => {
 
             return (
               <div key={car._id} className="border border-gray-500 bg-[#545454] p-1 rounded-lg shadow-md hover:shadow-xl transition cursor-pointer">
-                <Link href={`/Cars/${car._id}`} onClick={() => localStorage.setItem('fromPage', 'main')} className="no-underline block">
+                <Link href={`/Cars/${car._id}`} target='_blank' onClick={() => localStorage.setItem('fromPage', 'main')} className="no-underline block">
                   {/* Картинка с серым фоном */}
                   <div className="h-48 w-full overflow-hidden rounded-lg bg-gray-400 relative">
-                    {car.images?.[0] && (
-                      <img
+                    {car.images && car.images.length > 0 && (
+                    <img
+                      src={car.images[0].replace('/upload/', '/upload/f_auto,q_auto,w_840/')}
+                      alt={`${car.marka} ${car.model}`}
+                      className="h-full w-full object-cover absolute top-0 left-0"
                       loading="lazy"
-                        src={car.images[0]}
-                        alt={`${car.marka} ${car.model}`}
-                        className="h-full w-full object-cover absolute top-0 left-0"
-                        onError={(e) => { e.target.style.display = 'none'; }}
-                      />
+                    />
                     )}
                   </div>
                   <p className="text-sm text-gray-100 mb-1">
@@ -272,14 +271,14 @@ const scrollToTop = () => {
           })}
           
         </div>
-{showScrollTop && (
-  <button
-    onClick={scrollToTop}
-    className="fixed z-50 right-5 bottom-20 md:bottom-5 bg-[#ebc032] hover:bg-yellow-600 text-white p-5 md:mr-9  px-5 rounded-full shadow-lg transition"
-  >
-    <FaLongArrowAltUp size={27}/>
-  </button>
-)}
+      {showScrollTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed z-50 right-5 bottom-20 md:bottom-5 bg-[#ebc032] hover:bg-yellow-600 text-white p-4 md:mr-9  px-4 cursor-pointer rounded-full shadow-lg transition"
+        >
+          <FaLongArrowAltUp size={27}/>
+        </button>
+      )}
       </div>
     );
   };
