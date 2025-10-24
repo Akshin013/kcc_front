@@ -111,7 +111,7 @@ console.log(fromPage);
       >
         ← Geri
       </button>
-</div>
+  </div>
       <div className="max-w-4xl mx-auto border border-gray-500 bg-[#545454] rounded-lg shadow-lg p-3">
         <h1 className="text-2xl font-bold mb-4">{car.marka} {car.model} {car.versiya}</h1>
 
@@ -123,7 +123,12 @@ console.log(fromPage);
             {current.type === 'video' ? (
               <video src={current.src} controls className="w-full h-full object-cover rounded-lg"/>
             ) : (
-              <img src={current.src} alt="car" className="w-full h-full object-cover rounded-lg"/>
+<img 
+  src={current.src.replace('/upload/', '/upload/f_auto,q_auto,w_880/')} 
+  alt="car" 
+  className="w-full h-full object-cover rounded-lg" 
+  loading="eager"
+/>
             )}
 
             {gallery.length > 1 && (
@@ -185,7 +190,12 @@ console.log(fromPage);
             {current.type === 'video' ? (
               <video src={current.src} controls autoPlay className="max-h-full max-w-full rounded-lg"/>
             ) : (
-              <img src={current.src} alt="car fullscreen" className="max-h-full max-w-full rounded-lg"/>
+<img 
+  src={current.src.replace('/upload/', '/upload/f_auto,q_auto,w_1400/')} 
+  alt="car" 
+  className="w-full h-full object-cover rounded-lg" 
+  loading="eager"
+/>
             )}
 
             {gallery.length > 1 && (
