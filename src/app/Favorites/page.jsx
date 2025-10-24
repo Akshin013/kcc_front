@@ -104,25 +104,6 @@ const Favorites = () => {
                       className="w-full h-full object-cover" loading='eager'
                       onError={(e) => { e.target.src = '/default-car.jpg'; }}
                     />
-                    {car.images.length > 1 && (
-                      <>
-                        <button
-                          onClick={(e) => { e.preventDefault(); handlePrevImage(car._id); }}
-                          className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white px-2 py-1 rounded opacity-70 hover:opacity-100"
-                        >
-                          ‹
-                        </button>
-                        <button
-                          onClick={(e) => { e.preventDefault(); handleNextImage(car._id); }}
-                          className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white px-2 py-1 rounded opacity-70 hover:opacity-100"
-                        >
-                          ›
-                        </button>
-                        <p className="absolute bottom-1 right-2 bg-white bg-opacity-70 px-1 rounded text-sm text-black">
-                          {currentIndex + 1} / {car.images.length} фото
-                        </p>
-                      </>
-                    )}
                   </div>
                 )}
 
