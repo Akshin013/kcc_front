@@ -212,7 +212,7 @@ const scrollToTop = () => {
                   <div className="h-48 w-full overflow-hidden rounded-lg bg-gray-400 relative">
                     {car.images && car.images.length > 0 && (
                     <img
-                      src={car.images[0].replace('/upload/', '/upload/f_auto,q_auto,w_840/')}
+                      src={car.images[0].replace('/upload/', '/upload/f_auto,q_auto,w_810/')}
                       alt={`${car.marka} ${car.model}`}
                       className="h-full w-full object-cover absolute top-0 left-0"
                       loading="lazy"
