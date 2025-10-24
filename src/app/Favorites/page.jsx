@@ -99,9 +99,9 @@ const Favorites = () => {
                 {car.images?.length > 0 && (
                   <div className="relative w-full bg-red-900 aspect-[4/3] rounded-t-lg overflow-hidden">
                     <img
-                      src={car.images[currentIndex]}
+                      src={car.images[0].replace('/upload/', '/upload/f_auto,q_auto,w_800/')}
                       alt={`${car.marka} ${car.model}`}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover" loading='eager'
                       onError={(e) => { e.target.src = '/default-car.jpg'; }}
                     />
                     {car.images.length > 1 && (
