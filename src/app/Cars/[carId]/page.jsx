@@ -182,11 +182,11 @@ console.log(fromPage);
 
           <div
             onClick={(e) => { e.stopPropagation(); toggleFavorite(car._id); }}
-            className={`rounded-lg w-[30%] flex items-center justify-center cursor-pointer ${
+            className={` rounded-lg w-[30%] flex items-center justify-center cursor-pointer ${
               isFavorite ? "text-red-500" : "text-gray-400"
             }`}
           >
-            <IoIosHeart size={25}/>
+            <IoIosHeart size={25} className='rounded hover:text-red-600'/>
           </div>
         </div>
       </div>
@@ -195,7 +195,7 @@ console.log(fromPage);
       {isFullscreen && (
         <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50">
         <button
-          className="absolute cursor-pointer top-4 right-4 text-white text-3xl z-[100]"
+          className="absolute p-1 cursor-pointer hover:bg-gray-800 rounded   top-4 right-4 text-white text-3xl z-[100]"
           onClick={(e) => {
             e.stopPropagation(); // остановим всплытие
             setIsFullscreen(false);
@@ -215,8 +215,8 @@ console.log(fromPage);
             />)}
             {gallery.length > 1 && (
               <>
-                <button onClick={handlePrev} className="absolute cursor-pointer left-4 top-1/2 transform -translate-y-1/2 text-white text-4xl">‹</button>
-                <button onClick={handleNext} className="absolute cursor-pointer right-4 top-1/2 transform -translate-y-1/2 text-white text-4xl">›</button>
+                <button onClick={handlePrev} className="absolute cursor-pointer hover:bg-gray-800 lg:p-3 lg:bg-gray-700 rounded left-4 top-1/2 transform -translate-y-1/2 text-white text-4xl">‹</button>
+                <button onClick={handleNext} className="absolute cursor-pointer hover:bg-gray-800 lg:p-3 lg:bg-gray-700 rounded right-4 top-1/2 transform -translate-y-1/2 text-white text-4xl">›</button>
               </>
             )}
           </div>
