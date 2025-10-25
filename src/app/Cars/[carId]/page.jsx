@@ -104,8 +104,6 @@ console.log(fromPage);
 
   return (
     <div className="p-4 bg-[#333333] min-h-screen text-white">
-
-      <div className="max-w-4xl mx-auto border border-gray-500 bg-[#545454] rounded-lg shadow-lg p-3">
       <div>
       <button
         onClick={handleBack}
@@ -113,6 +111,7 @@ console.log(fromPage);
         ← Geri
       </button>
     </div>
+      <div className="max-w-4xl mx-auto border border-gray-500 bg-[#545454] rounded-lg shadow-lg p-3">
         <h1 className="text-2xl font-bold mb-4">{car.marka} {car.model} {car.versiya}</h1>
         {gallery.length > 0 && (
           <div
