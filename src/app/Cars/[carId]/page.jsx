@@ -30,6 +30,27 @@ const CarDetail = () => {
   };
    
 
+
+useEffect(() => {
+  const handleKeyDown = (e) => {
+    if (e.key === "Escape") {
+      setIsFullscreen(false);
+    }
+  };
+
+  // добавляем слушатель при открытии
+  if (isFullscreen) {
+    window.addEventListener("keydown", handleKeyDown);
+  }
+
+  // очищаем при закрытии
+  return () => {
+    window.removeEventListener("keydown", handleKeyDown);
+  };
+}, [isFullscreen]);
+
+
+
 console.log(fromPage);
 
   
@@ -104,10 +125,10 @@ console.log(fromPage);
 
   return (
     <div className="p-4 bg-[#333333] min-h-screen text-white">
-      <div>
+      <div className='max-w-4xl mx-auto'>
       <button
         onClick={handleBack}
-        className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded mb-4">
+        className="bg-gray-700 flex text-center cursor-pointer hover:bg-gray-600 px-4 py-2 rounded mb-4">
         ← Geri
       </button>
     </div>
@@ -174,7 +195,7 @@ console.log(fromPage);
       {isFullscreen && (
         <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50">
         <button
-          className="absolute top-4 right-4 text-white text-3xl z-[100]"
+          className="absolute cursor-pointer top-4 right-4 text-white text-3xl z-[100]"
           onClick={(e) => {
             e.stopPropagation(); // остановим всплытие
             setIsFullscreen(false);
@@ -194,8 +215,8 @@ console.log(fromPage);
             />)}
             {gallery.length > 1 && (
               <>
-                <button onClick={handlePrev} className="absolute left-4 top-1/2 transform  -translate-y-1/2 text-white text-4xl">‹</button>
-                <button onClick={handleNext} className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white text-4xl">›</button>
+                <button onClick={handlePrev} className="absolute cursor-pointer left-4 top-1/2 transform -translate-y-1/2 text-white text-4xl">‹</button>
+                <button onClick={handleNext} className="absolute cursor-pointer right-4 top-1/2 transform -translate-y-1/2 text-white text-4xl">›</button>
               </>
             )}
           </div>
