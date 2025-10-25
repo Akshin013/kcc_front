@@ -104,17 +104,16 @@ console.log(fromPage);
 
   return (
     <div className="p-4 bg-[#333333] min-h-screen text-white">
+
+      <div className="max-w-4xl mx-auto border border-gray-500 bg-[#545454] rounded-lg shadow-lg p-3">
       <div>
       <button
         onClick={handleBack}
-        className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded mb-4"
-      >
+        className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded mb-4">
         ← Geri
       </button>
-  </div>
-      <div className="max-w-4xl mx-auto border border-gray-500 bg-[#545454] rounded-lg shadow-lg p-3">
+    </div>
         <h1 className="text-2xl font-bold mb-4">{car.marka} {car.model} {car.versiya}</h1>
-
         {gallery.length > 0 && (
           <div
             className="relative mb-4 w-full aspect-[16/9] overflow-hidden rounded-lg cursor-pointer"
@@ -123,14 +122,12 @@ console.log(fromPage);
             {current.type === 'video' ? (
               <video src={current.src} controls className="w-full h-full object-cover rounded-lg"/>
             ) : (
-<img 
-  src={current.src.replace('/upload/', '/upload/f_auto,q_auto,w_880/')} 
-  alt="car" 
-  className="w-full h-full object-cover rounded-lg" 
-  loading="eager"
-/>
-            )}
-
+            <img 
+              src={current.src.replace('/upload/', '/upload/f_auto,q_auto,w_880/')} 
+              alt="car" 
+              className="w-full h-full object-cover rounded-lg" 
+              loading="eager"
+            />)}
             {gallery.length > 1 && (
               <>
                 <button onClick={(e) => { e.stopPropagation(); handlePrev(); }} className="absolute cursor-pointer left-2 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white px-2 py-1 rounded opacity-70 hover:opacity-100">‹</button>
@@ -190,17 +187,15 @@ console.log(fromPage);
             {current.type === 'video' ? (
               <video src={current.src} controls autoPlay className="max-h-full max-w-full rounded-lg"/>
             ) : (
-<img 
-  src={current.src.replace('/upload/', '/upload/f_auto,q_auto,w_1400/')} 
-  alt="car" 
-  className="w-full h-full object-cover rounded-lg" 
-  loading="eager"
-/>
-            )}
-
+            <img 
+              src={current.src.replace('/upload/', '/upload/f_auto,q_auto,w_1400/')} 
+              alt="car" 
+              className="w-full h-full object-contain rounded-lg" 
+              loading="eager"
+            />)}
             {gallery.length > 1 && (
               <>
-                <button onClick={handlePrev} className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white text-4xl">‹</button>
+                <button onClick={handlePrev} className="absolute left-4 top-1/2 transform  -translate-y-1/2 text-white text-4xl">‹</button>
                 <button onClick={handleNext} className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white text-4xl">›</button>
               </>
             )}
