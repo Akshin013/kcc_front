@@ -4,6 +4,8 @@ import axios from 'axios';
 import { v4 as uuidv4 } from "uuid";
 import Link from 'next/link';
 import { FaWhatsapp } from "react-icons/fa";
+import { IoIosHeartEmpty, IoIosHeart } from "react-icons/io";
+
 
 const Favorites = () => {
   const [favorites, setFavorites] = useState([]);
@@ -135,13 +137,11 @@ const Favorites = () => {
                 >
                   Əlaqə <FaWhatsapp size={18}/>
                 </a>
-                <button
-                  onClick={() => removeFromFavorites(fav._id)}
-                  className="bg-red-500 cursor-pointer text-white w-12 h-8 rounded-lg flex items-center justify-center"
-                >
-                  ❌
-                </button>
-              </div>
+                <div className='bg-[#545454] cursor-pointer text-white w-12 h-8 rounded-lg flex items-center justify-center' 
+                onClick={() => removeFromFavorites(fav._id)}>
+                    <IoIosHeart color='red' size={25} className='rounded hover:bg-red-600'/>  
+                </div>              
+                </div>
             </div>
           );
         })}
