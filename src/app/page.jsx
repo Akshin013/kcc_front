@@ -212,10 +212,10 @@ const scrollToTop = () => {
                   <div className="h-48 w-full overflow-hidden rounded-lg bg-gray-400 relative">
                     {car.images && car.images.length > 0 && (
                     <img
-                      src={car.images[0].replace('/upload/', '/upload/f_auto,q_auto,w_810/')}
+                      src={car.images[0].replace('/upload/', '/upload/f_auto,q_auto,w_800/')}
                       alt={`${car.marka} ${car.model}`}
                       className="h-full w-full object-cover absolute top-0 left-0"
-                      loading="lazy"
+                      loading="lazy" onLoad={(e) => e.target.classList.remove('blur-sm')}
                     />
                     )}
                   </div>
@@ -263,7 +263,7 @@ const scrollToTop = () => {
                   <div
                     onClick={(e) => { e.stopPropagation(); toggleFavorite(car._id); }}
                     className={`rounded-lg w-[30%] flex items-center justify-center ${isFavorite ? '' : 'text-white'}`}>
-                    {isFavorite ? <IoIosHeart color='red' size={25}/> : <IoIosHeartEmpty color='black' size={25}/>}
+                    {isFavorite ? <IoIosHeart color='red' size={25} className='rounded hover:bg-red-600'/> : <IoIosHeartEmpty color='black' size={25} className='hover:bg-red-600 rounded'/>}
                   </div>
                 </div>
               </div>
