@@ -232,7 +232,7 @@ const scrollToTop = () => {
 
                 <div>
                   <p className={`font-bold w-fit ${car.sold ? 'text-white bg-red-800 rounded-lg px-1' : ''}`}>
-                    {car.sold ? 'SATILIB' : `${car.qiymet} $ (Baki tehvil)`}
+                    {car.sold ? 'SATILIB' : `${car.qiymet} $ (Baki təhvil)`}
                   </p>
                   
                 </div>
