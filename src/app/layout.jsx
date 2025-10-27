@@ -16,6 +16,7 @@ export default function RootLayout({ children }) {
       <head>
         <title>KCC Auto</title>
 
+          <meta httpEquiv="refresh" content="300" />
         {/* ✅ Google Analytics (GA4) */}
         <Script
           async
