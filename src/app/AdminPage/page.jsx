@@ -32,6 +32,28 @@ const [newCar, setNewCar] = useState({
   const ADMIN_USERNAME = 'kccauto';
   const ADMIN_PASSWORD = 'Mamediq1988';
 
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+useEffect(() => {
+  const handleScroll = () => {
+    if (window.scrollY > 300) { // после 300px прокрутки
+      setShowScrollTop(true);
+    } else {
+      setShowScrollTop(false);
+    }
+  };
+
+  window.addEventListener("scroll", handleScroll);
+  return () => window.removeEventListener("scroll", handleScroll);
+}, []);
+
+const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
+
+
+
+
   // 🔹 функция для водяного знака
   const addWatermark = (file, watermarkText = "KCCAUTO") => {
     return new Promise((resolve, reject) => {
@@ -306,7 +328,7 @@ const [newCar, setNewCar] = useState({
       {/* предпросмотр */}
       <div className="mb-4 flex gap-2 flex-wrap">
         {images.map((file, idx) => (
-          <div key={idx} className="relative">
+          <div key={idx} className="tive">
             <img
               src={file instanceof File ? URL.createObjectURL(file) : file}
               alt={`preview ${idx}`}
@@ -339,7 +361,8 @@ const [newCar, setNewCar] = useState({
         ))}
       </div>
 
-      <div className="flex items-center gap-4 mb-6"><button
+      <div className="flex items-center gap-4 mb-6">
+<button
   onClick={handleAddOrUpdateCar}
   className="
     bg-green-500 
@@ -350,10 +373,13 @@ const [newCar, setNewCar] = useState({
     hover:bg-green-600 
     active:bg-green-700 
     transition-colors 
-    duration-200">
+    duration-200
+  "
+>
   {editingCarId ? 'Dəyişiklikləri Saxla' : 'Əlavə et'}
 </button>
       </div>
+
       {/* поиск */}
       <div className='flex items-center gap-4 mb-6'>
         <input
@@ -403,17 +429,22 @@ const [newCar, setNewCar] = useState({
       )}
 
       {/* список */}
-      <h2 className="text-xl text-white font-semibold mb-2">Maşınların siyahısı</h2>
+      <div className='flex justify-between'>
+        <h2 className="text-xl text-white font-semibold mb-2">Maşınların siyahısı</h2>
+        <h2 className="text-xl text-white font-semibold mb-2">Ümumi sayı: {cars.length}</h2>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {cars.map(car => (
           <div key={car._id} className="border p-4 rounded shadow">
             {car.images && car.images.length > 0 && (
               <img
-                src={car.images[0]}
+                src={car.images[0].replace('/upload/', '/upload/f_auto,q_auto,w_600/')}
                 alt={`${car.marka} ${car.model}`}
                 className="h-40 w-full object-cover rounded mb-2"
+                loading="lazy"
               />
             )}
+
             <div className='flex gap-4'>
             <p className='text-white'><strong>{car.marka} {car.model}</strong></p>
             <p className='text-white'><strong>Vin: {car.vin}</strong></p>
@@ -458,6 +489,7 @@ const [newCar, setNewCar] = useState({
           </div>
         ))}
       </div>
+ 
     </div>
   );
 };
