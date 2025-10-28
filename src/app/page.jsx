@@ -6,7 +6,8 @@
   import { IoIosHeartEmpty, IoIosHeart } from "react-icons/io";
   import { FaWhatsapp } from "react-icons/fa";
   import { FaLongArrowAltUp } from "react-icons/fa";  
-    const Main = () => {
+
+  const Main = () => {
     const [cars, setCars] = useState([]);
     const [filteredCars, setFilteredCars] = useState([]);
     const [favorites, setFavorites] = useState([]);
@@ -32,6 +33,13 @@
     }, []);
 
     const fetchCars = async () => {
+      console.time("Загрузка данных");
+
+const res = await fetch("https://kcc-back.onrender.com/api/cars");
+const data = await res.json();
+
+console.timeEnd("Загрузка данных");
+
       try {
         const res = await axios.get('https://kcc-back.onrender.com/api/cars');
         const sorted = res.data.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -172,14 +180,12 @@ const scrollToTop = () => {
             placeholder="Axtar: Marka, Model, Versiya, Yanacaq..."
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="border border-gray-400 rounded-lg p-2 flex-1"
-          />
+            className="border border-gray-400 rounded-lg p-2 flex-1"/>
           <div className='flex justify-between gap-3'>
           <select
             value={yearFilter}
             onChange={e => setYearFilter(e.target.value)}
-            className="border cursor-pointer border-gray-400 rounded-lg p-2 w-1/2 bg-[#333333] text-white"
-          >
+            className="border cursor-pointer border-gray-400 rounded-lg p-2 w-1/2 bg-[#333333] text-white">
             <option value="" className='cursor-pointer'>Bütün illər</option>
             {years.map(year => <option key={year} value={year}>{year}</option>)}
           </select>
@@ -187,14 +193,12 @@ const scrollToTop = () => {
           <select
             value={dateFilter}
             onChange={e => setDateFilter(e.target.value)}
-            className="border cursor-pointer border-gray-400 rounded-lg p-2 w-1/2 bg-[#333333] text-white"
-          >
+            className="border cursor-pointer border-gray-400 rounded-lg p-2 w-1/2 bg-[#333333] text-white">
             <option className='cursor-pointer' value="all">Hamısı</option>
             <option className='cursor-pointer' value="today">Bügün</option>
             <option className='cursor-pointer' value="week">Bu həftə</option>
             <option className='cursor-pointer' value="month">Bu ay</option>
           </select>
-
           </div>
         </div>
 
@@ -207,7 +211,7 @@ const scrollToTop = () => {
 
             return (
               <div key={car._id} className="border border-gray-500 bg-[#545454] p-1 rounded-lg shadow-md hover:shadow-xl transition cursor-pointer">
-                <Link href={`/Cars/${car._id}`} onClick={() => localStorage.setItem('fromPage', 'main')} className="no-underline block">
+                <Link href={`/Cars/${car._id}`}  onClick={() => localStorage.setItem('fromPage', 'main')} className="no-underline block">
                   {/* Картинка с серым фоном */}
                   <div className="h-48 w-full overflow-hidden rounded-lg bg-gray-400 relative">
                     {car.images && car.images.length > 0 && (
@@ -216,7 +220,7 @@ const scrollToTop = () => {
                       alt={`${car.marka} ${car.model}`}
                       className="h-full w-full object-cover absolute top-0 left-0"
                       loading="lazy" onLoad={(e) => e.target.classList.remove('blur-sm')}
-                    />
+/>
                     )}
                   </div>
                   <p className="text-sm text-gray-100 mb-1">
@@ -232,7 +236,7 @@ const scrollToTop = () => {
 
                 <div>
                   <p className={`font-bold w-fit ${car.sold ? 'text-white bg-red-800 rounded-lg px-1' : ''}`}>
-                    {car.sold ? 'SATILIB' : `${car.qiymet} $ (Baki təhvil)`}
+                    {car.sold ? 'SATILIB' : `${car.qiymet} $ (Baki tehvil)`}
                   </p>
                   
                 </div>
