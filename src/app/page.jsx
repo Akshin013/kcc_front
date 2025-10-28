@@ -19,6 +19,12 @@
     // const whatsappNumber = '+79658926701';
     const whatsappNumber = '+994553801105';
 
+    setInterval(() => {
+      const res =  axios.get('https://kcc-back.onrender.com/api/cars');
+      console.log("int");
+      
+    }, 300000); 
+
     useEffect(() => {
       let userId = localStorage.getItem("userId");
       if (!userId) {
@@ -35,10 +41,10 @@
     const fetchCars = async () => {
       console.time("Загрузка данных");
 
-const res = await fetch("https://kcc-back.onrender.com/api/cars");
-const data = await res.json();
+    const res = await fetch("https://kcc-back.onrender.com/api/cars");
+    const data = await res.json();
 
-console.timeEnd("Загрузка данных");
+    console.timeEnd("Загрузка данных");
 
       try {
         const res = await axios.get('https://kcc-back.onrender.com/api/cars');
