@@ -221,12 +221,13 @@ const scrollToTop = () => {
                   <div className="h-48 w-full overflow-hidden rounded-lg bg-gray-400 relative">
                     {car.images && car.images.length > 0 && (
                     <img
-                      src={car.images[0].replace('/upload/', '/upload/f_auto,q_auto,w_800/')}
+                      src={car.images[0].replace(
+                        '/upload/',
+                        '/upload/f_auto,q_auto,w_800,c_fill,dpr_auto/')}
                       alt={`${car.marka} ${car.model}`}
                       className="h-full w-full object-cover absolute top-0 left-0"
-                      loading="lazy" onLoad={(e) => e.target.classList.remove('blur-sm')}
-/>
-                    )}
+                      loading="lazy"
+                      onLoad={(e) => e.target.classList.remove('blur-sm')}/>)}
                   </div>
                   <p className="text-sm text-gray-100 mb-1">
                     {new Date(car.createdAt).toLocaleString([], {
@@ -234,8 +235,7 @@ const scrollToTop = () => {
                       month: '2-digit',
                       day: '2-digit',
                       hour: '2-digit',
-                      minute: '2-digit'
-                    })}
+                      minute: '2-digit'})}
                   </p>
                 </Link>
 
