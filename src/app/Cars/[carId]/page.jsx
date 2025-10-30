@@ -20,6 +20,12 @@ const CarDetail = () => {
   const [fromPage, setFromPage] = useState('main');
 
   useEffect(() => {
+  // Прокрутка наверх при монтировании страницы
+  window.scrollTo({ top: 0, left: 0, behavior: 'auto' }); // 'auto' = мгновенно
+}, []);
+
+  
+  useEffect(() => {
     const page = localStorage.getItem('fromPage');
     if (page) setFromPage(page);
   }, []);
