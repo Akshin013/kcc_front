@@ -101,11 +101,17 @@ const Favorites = () => {
                 {car.images?.length > 0 && (
                   <div className="relative w-full bg-red-900 aspect-[4/3] rounded-t-lg overflow-hidden">
                     <img
-                      src={car.images[0].replace('/upload/', '/upload/f_auto,q_auto,w_800/')}
+                      src={car.images[0]?.replace(
+                        '/upload/',
+                        '/upload/f_auto,q_auto,w_800,c_fill,dpr_auto/'
+                      )}
                       alt={`${car.marka} ${car.model}`}
-                      className="w-full h-full object-cover" loading='eager'
-                      onError={(e) => { e.target.src = '/default-car.jpg'; }}
-                    />
+                      className="w-full h-full object-cover"
+                      loading="eager"
+                      onError={(e) => {
+                        e.target.onerror = null; // предотвращаем зацикливание
+                        e.target.src = "https://res.cloudinary.com/dsigbmb7p/image/upload/f_auto,q_auto,w_800,c_fill,dpr_auto/v1690000000/default-car.jpg";
+                      }}/>
                   </div>
                 )}
 
