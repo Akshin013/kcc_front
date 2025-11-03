@@ -36,20 +36,28 @@ const Navbar = () => {
   return (
     <>
       {/* Мобильная навигация (нижняя панель) */}
-      <div className="bg-[#333333] z-50 rounded-lg border border-gray-700 fixed bottom-0 left-0 w-full grid grid-cols-3 gap-3 md:hidden">
-        {links.map((link, i) => (
-          <Link 
-            key={i} 
-            href={link.href} 
-            className={`flex flex-col items-center gap-0.5 rounded-2xl p-2 ${link.elevated ? '-mt-7' : ''}`}
-          >
-            {link.icon}
-            <p className={`text-xs ${link.elevated ? 'mt-4.5' : ''}`} style={{color: link.color}}>
-              {link.label}
-            </p>
-          </Link>
-        ))}
-      </div>
+<div
+  className="bg-[#333333] z-50 rounded-lg border border-gray-700 fixed left-0 w-full grid grid-cols-3 gap-3 md:hidden"
+  style={{
+    bottom: 0,
+    paddingBottom: "env(safe-area-inset-bottom)", // учитывает вырезы и панель
+    // optional: немного выше, чтобы не прыгало при скролле
+  }}
+>
+  {links.map((link, i) => (
+    <Link
+      key={i}
+      href={link.href}
+      className={`flex flex-col items-center gap-0.5 rounded-2xl p-2 ${link.elevated ? '-mt-7' : ''}`}
+    >
+      {link.icon}
+      <p className={`text-xs ${link.elevated ? 'mt-4.5' : ''}`} style={{ color: link.color }}>
+        {link.label}
+      </p>
+    </Link>
+  ))}
+</div>
+
 
       {/* ПК: бургер-меню */}
       <div className="hidden md:flex cursor-pointer flex-col fixed top-2 left-4 z-50 lg:ml-48" ref={menuRef}>
@@ -64,7 +72,7 @@ const Navbar = () => {
         {isOpen && (
           <div className="mt-2 bg-[#333333] border cursor-pointer border-gray-700 rounded-lg flex flex-col gap-3 p-4 shadow-lg">
             {links.map((link, i) => (
-              <Link 
+              <Link   
                 key={i} 
                 href={link.href} 
                 onClick={() => setIsOpen(false)} // закрываем при выборе
