@@ -37,11 +37,13 @@ const Navbar = () => {
     <>
       {/* Мобильная навигация (нижняя панель) */}
 <div
-  className="bg-[#333333] z-50 rounded-lg border border-gray-700 fixed left-0 w-full grid grid-cols-3 gap-3 md:hidden"
+  className="z-50 rounded-lg border border-gray-700 fixed left-0 w-full grid grid-cols-3 gap-3 md:hidden"
   style={{
     bottom: 0,
     paddingBottom: "env(safe-area-inset-bottom)", // учитывает вырезы и панель
-    // optional: немного выше, чтобы не прыгало при скролле
+    backgroundColor: "rgba(51, 51, 51, 0.6)", // полупрозрачный фон
+    backdropFilter: "blur(10px)", // стеклянный эффект
+    WebkitBackdropFilter: "blur(10px)", // для Safari
   }}
 >
   {links.map((link, i) => (
@@ -58,7 +60,7 @@ const Navbar = () => {
   ))}
 </div>
 
-
+      
       {/* ПК: бургер-меню */}
       <div className="hidden md:flex cursor-pointer flex-col fixed top-2 left-4 z-50 lg:ml-48" ref={menuRef}>
         <button 
