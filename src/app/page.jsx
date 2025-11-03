@@ -9,7 +9,7 @@
 
   const Main = () => {
     const [cars, setCars] = useState([]);
-    const [filteredCars, setFilteredCars] = useState([]);
+    // const [filteredCars, setFilteredCars] = useState([]);
     const [favorites, setFavorites] = useState([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
@@ -17,6 +17,12 @@
     const [dateFilter, setDateFilter] = useState("all");
     const [carImagesIndex, setCarImagesIndex] = useState({});
     const whatsappNumber = '+994553801105';
+  const [showOnlyAvailable, setShowOnlyAvailable] = useState(false);
+
+  const filteredCars = showOnlyAvailable
+    ? cars.filter(car => !car.sold) // показываем только непроданные
+    : cars; // показываем все
+
 
     setInterval(() => {
       const res =  axios.get('https://kcc-back.onrender.com/api/cars');
@@ -49,7 +55,7 @@
         const res = await axios.get('https://kcc-back.onrender.com/api/cars');
         const sorted = res.data.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
         setCars(sorted);
-        setFilteredCars(sorted);
+        // setFilteredCars(sorted);
 
         const initialIndex = {};
         sorted.forEach(car => initialIndex[car._id] = 0);
@@ -179,22 +185,21 @@ const scrollToTop = () => {
       
     return (
       <div className="p-2 bg-[#333333] text-white">
-        <div className="flex flex-col md:flex-row gap-2 mb-4">
+        <div className="flex flex-col  gap-2 mb-4">
           <input
             type="text"
             placeholder="Axtar: Marka, Model, Versiya, Yanacaq..."
             value={search}
             onChange={e => setSearch(e.target.value)}
             className="border border-gray-400 rounded-lg p-2 flex-1"/>
-          <div className='flex justify-between gap-3'>
+            <div className='flex  gap-3'>
           <select
             value={yearFilter}
             onChange={e => setYearFilter(e.target.value)}
             className="border cursor-pointer border-gray-400 rounded-lg p-2 w-1/2 bg-[#333333] text-white">
             <option value="" className='cursor-pointer'>Bütün illər</option>
             {years.map(year => <option key={year} value={year}>{year}</option>)}
-          </select>
-            
+          </select>  
           <select
             value={dateFilter}
             onChange={e => setDateFilter(e.target.value)}
@@ -204,6 +209,14 @@ const scrollToTop = () => {
             <option className='cursor-pointer' value="week">Bu həftə</option>
             <option className='cursor-pointer' value="month">Bu ay</option>
           </select>
+          <button
+            onClick={() => setShowOnlyAvailable(!showOnlyAvailable)}
+            className={`px-3 py-0.5 rounded-xl text-[15px] font-medium transition-all cursor-pointer min-w-[100px] text-center
+              ${showOnlyAvailable 
+                ? 'bg-green-600 text-white' 
+                : 'bg-gray-700 text-gray-200 hover:bg-gray-600'}`}>
+            {showOnlyAvailable ? 'Hamısı' : 'Satılmayanlar'}
+          </button>
           </div>
         </div>
 
