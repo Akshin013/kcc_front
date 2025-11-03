@@ -211,7 +211,7 @@ const scrollToTop = () => {
           </select>
           <button
             onClick={() => setShowOnlyAvailable(!showOnlyAvailable)}
-            className={`px-1 py-0.5 rounded-xl text-[15px] font-medium transition-all cursor-pointer min-w-[100px] text-center
+            className={`px-2 py-0.5 rounded-xl text-[15px] font-medium transition-all cursor-pointer min-w-[110px] text-center
               ${showOnlyAvailable 
                 ? 'bg-green-600 text-white hover:bg-green-700' 
                 : 'bg-gray-700 text-gray-200 hover:bg-gray-800'}`}>
