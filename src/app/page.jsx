@@ -293,13 +293,17 @@ const scrollToTop = () => {
           })}
           
         </div>
-      {showScrollTop && (
-        <button
-          onClick={scrollToTop}
-          className="fixed z-50 right-5 bottom-20 md:bottom-5 bg-[#ebc032] hover:bg-yellow-600 text-white p-4 md:mr-9  px-4 cursor-pointer rounded-full shadow-lg transition"
-        >
-          <FaLongArrowAltUp size={27}/>
-        </button>
+      {showScrollTop && (<button
+  onClick={scrollToTop}
+  className="fixed z-50 right-5 bottom-20 md:bottom-5 text-white p-4 md:mr-9 px-4 cursor-pointer rounded-full shadow-lg transition"
+  style={{
+    backgroundColor: "rgba(235, 192, 50, 0.3)", // более насыщенный желтый
+    backdropFilter: "blur(10px)",               // стеклянный эффект
+    WebkitBackdropFilter: "blur(10px)",        // для Safari
+  }}>
+  <FaLongArrowAltUp size={27} />
+</button>
+
       )}
       </div>
     );
