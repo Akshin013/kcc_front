@@ -20,12 +20,6 @@ const CarDetail = () => {
   const [fromPage, setFromPage] = useState('main');
 
   useEffect(() => {
-  // Прокрутка наверх при монтировании страницы
-  window.scrollTo({ top: 0, left: 0, behavior: 'auto' }); // 'auto' = мгновенно
-}, []);
-
-  
-  useEffect(() => {
     const page = localStorage.getItem('fromPage');
     if (page) setFromPage(page);
   }, []);
@@ -75,6 +69,13 @@ console.log(fromPage);
   const toggleFavorite = async (carId) => {
     const userId = localStorage.getItem("userId");
     if (!userId) return;
+  const isFav = favorites.includes(carId);
+
+  setFavorites(prev =>
+      isFav
+        ? prev.filter(id => id !== carId)   // убрать лайк
+        : [...prev, carId]                  // добавить лайк
+    );
 
     try {
       if (favorites.includes(carId)) {
@@ -91,7 +92,7 @@ console.log(fromPage);
       console.error("Ошибка при изменении избранного:", err.response?.data || err.message);
     }
   };
-
+  
   useEffect(() => {
     let userId = localStorage.getItem("userId");
     if (!userId) {
