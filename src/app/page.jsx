@@ -17,11 +17,10 @@
     const [dateFilter, setDateFilter] = useState("all");
     const [carImagesIndex, setCarImagesIndex] = useState({});
     const whatsappNumber = '+994553801105';
-  const [showOnlyAvailable, setShowOnlyAvailable] = useState(false);
+    const [showOnlyAvailable, setShowOnlyAvailable] = useState(false);
 
   const filteredCars = showOnlyAvailable
-    ? cars.filter(car => !car.sold) // показываем только непроданные
-    : cars; // показываем все
+    ? cars.filter(car => !car.sold) : cars; 
 
 
     setInterval(() => {
@@ -43,30 +42,34 @@
       fetchCars();
     }, []);
 
-    const fetchCars = async () => {
-      console.time("Загрузка данных");
+const fetchCars = async () => {
+  console.time("FRONTEND RENDER");  // старт замера фронта
+  console.time("BACKEND API");      // старт замера бэка
 
-    const res = await fetch("https://kcc-back.onrender.com/api/cars");
-    const data = await res.json();
+  try {
+    const res = await axios.get('https://kcc-back.onrender.com/api/cars');
 
-    console.timeEnd("Загрузка данных");
+    console.timeEnd("BACKEND API");   // END — скорость ответа бэка
 
-      try {
-        const res = await axios.get('https://kcc-back.onrender.com/api/cars');
-        const sorted = res.data.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
-        setCars(sorted);
-        // setFilteredCars(sorted);
+    const sorted = res.data.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+    setCars(sorted);
 
-        const initialIndex = {};
-        sorted.forEach(car => initialIndex[car._id] = 0);
-        setCarImagesIndex(initialIndex);
+    const initialIndex = {};
+    sorted.forEach(car => initialIndex[car._id] = 0);
+    setCarImagesIndex(initialIndex);
 
-        setLoading(false);
-      } catch (err) {
-        console.error("Ошибка при получении машин:", err);
-        setLoading(false);
-      }
-    };
+    setLoading(false);
+
+    console.timeEnd("FRONTEND RENDER"); // END — общее время загрузки
+
+  } catch (err) {
+    console.timeEnd("BACKEND API");
+    console.timeEnd("FRONTEND RENDER");
+    console.error("Ошибка при получении машин:", err);
+    setLoading(false);
+  }
+};
+
 
     const [showScrollTop, setShowScrollTop] = useState(false);
 
@@ -83,13 +86,27 @@ useEffect(() => {
   return () => window.removeEventListener("scroll", handleScroll);
 }, []);
 
-
 const scrollToTop = () => {
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  const duration = 600; // мс
+  const start = window.scrollY;
+  const startTime = performance.now();
+
+  const animate = (time) => {
+    const elapsed = time - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+
+    // плавная функция easeInOutCubic
+    const ease = progress < 0.5
+      ? 4 * progress * progress * progress
+      : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+    window.scrollTo(0, start * (1 - ease));
+
+    if (progress < 1) requestAnimationFrame(animate);
+  };
+
+  requestAnimationFrame(animate);
 };
-
-
-
 
     const fetchFavorites = async (userId) => {
       try {
@@ -103,29 +120,43 @@ const scrollToTop = () => {
       }
     };
 
-    const toggleFavorite = async (carId) => {
-      const userId = localStorage.getItem("userId");
+const toggleFavorite = async (carId) => {
+  const userId = localStorage.getItem("userId");
 
-      if (favorites.includes(carId)) {
-        try {
-          const favRes = await axios.get(`https://kcc-back.onrender.com/api/favorites/${userId}`);
-          if (!Array.isArray(favRes.data)) return;
-          const favItem = favRes.data.find(f => f.carId?._id === carId);
-          if (!favItem) return;
-          await axios.delete(`https://kcc-back.onrender.com/api/favorites/${favItem._id}`);
-          setFavorites(prev => prev.filter(id => id !== carId));
-        } catch (err) {
-          console.error("Ошибка при удалении из избранного:", err.response?.data || err.message);
-        }
-      } else {
-        try {
-          await axios.post("https://kcc-back.onrender.com/api/favorites", { userId, carId });
-          setFavorites(prev => [...prev, carId]);
-        } catch (err) {
-          console.error("Ошибка добавления в избранное:", err.response?.data || err.message);
-        }
+  const isFav = favorites.includes(carId);
+
+  // 🔥 1. Оптимистичное обновление UI (МГНОВЕННО)
+  setFavorites(prev =>
+    isFav
+      ? prev.filter(id => id !== carId)   // убрать лайк
+      : [...prev, carId]                  // добавить лайк
+  );
+
+  try {
+    if (isFav) {
+      // удалить
+      const favRes = await axios.get(`https://kcc-back.onrender.com/api/favorites/${userId}`);
+      const favItem = favRes.data.find(f => f.carId?._id === carId);
+      if (favItem) {
+        await axios.delete(`https://kcc-back.onrender.com/api/favorites/${favItem._id}`);
       }
-    };
+    } else {
+      // добавить
+      await axios.post("https://kcc-back.onrender.com/api/favorites", { userId, carId });
+    }
+
+  } catch (err) {
+    console.error("Ошибка избранного:", err.message);
+
+    // ❗ Откат UI если ошибка
+    setFavorites(prev =>
+      isFav
+        ? [...prev, carId]           // вернуть лайк
+        : prev.filter(id => id !== carId)   // убрать неправильное добавление
+    );
+  }
+};
+
 
     const handlePrevImage = (carId) => {
       setCarImagesIndex(prev => {
@@ -293,7 +324,8 @@ const scrollToTop = () => {
           })}
           
         </div>
-      {showScrollTop && (<button
+      {showScrollTop && (
+<button
   onClick={scrollToTop}
   className="fixed z-50 right-5 bottom-20 md:bottom-5 text-white p-4 md:mr-9 px-4 cursor-pointer rounded-full shadow-lg transition"
   style={{
@@ -303,7 +335,6 @@ const scrollToTop = () => {
   }}>
   <FaLongArrowAltUp size={27} />
 </button>
-
       )}
       </div>
     );
