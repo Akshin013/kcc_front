@@ -29,8 +29,6 @@ const CarDetail = () => {
     else router.push('/');
   };
    
-
-
 useEffect(() => {
   const handleKeyDown = (e) => {
     if (e.key === "Escape") {
@@ -49,6 +47,9 @@ useEffect(() => {
   };
 }, [isFullscreen]);
 
+useEffect(() => {
+  window.scrollTo(0, 0);
+}, []);
 
 
 console.log(fromPage);
@@ -234,3 +235,4 @@ console.log(fromPage);
 };
 
 export default CarDetail;
+  
