@@ -42,6 +42,12 @@
       fetchCars();
     }, []);
 
+    // Пролистать страницу вверх при первом открытии
+useEffect(() => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}, []);
+
+
 const fetchCars = async () => {
   console.time("FRONTEND RENDER");  // старт замера фронта
   console.time("BACKEND API");      // старт замера бэка
@@ -315,9 +321,11 @@ const toggleFavorite = async (carId) => {
                   </a>
                   <div
                     onClick={(e) => { e.stopPropagation(); toggleFavorite(car._id); }}
-                    className={`rounded-lg w-[30%] flex items-center justify-center ${isFavorite ? '' : 'text-white'}`}>
-                    {isFavorite ? <IoIosHeart color='red' size={25} className='rounded hover:bg-red-600'/> : <IoIosHeartEmpty color='black' size={25} className='hover:bg-red-600 rounded'/>}
-                  </div>
+                    className={` rounded-lg w-[30%] flex items-center justify-center cursor-pointer ${
+                         isFavorite ? "text-red-500" : "text-gray-400"
+                       }`}>
+                       <IoIosHeart size={25} className='rounded hover:text-red-600'/>
+                     </div>
                 </div>
               </div>
             );
