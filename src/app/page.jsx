@@ -49,13 +49,19 @@ useEffect(() => {
 
 
 const fetchCars = async () => {
-  console.time("FRONTEND RENDER");  // старт замера фронта
-  console.time("BACKEND API");      // старт замера бэка
+  const perf = {}; // собираем метрики
+
+  console.time("TOTAL LOAD"); 
+  console.time("FRONTEND RENDER");
+  console.time("BACKEND API");
+  const networkStart = performance.now();
 
   try {
     const res = await axios.get('https://kcc-back.onrender.com/api/cars');
 
-    console.timeEnd("BACKEND API");   // END — скорость ответа бэка
+    perf.network = (performance.now() - networkStart).toFixed(1) + " ms";
+
+    console.timeEnd("BACKEND API");
 
     const sorted = res.data.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
     setCars(sorted);
@@ -66,15 +72,29 @@ const fetchCars = async () => {
 
     setLoading(false);
 
-    console.timeEnd("FRONTEND RENDER"); // END — общее время загрузки
+    console.timeEnd("FRONTEND RENDER");
+    console.timeEnd("TOTAL LOAD");
+
+    // Вывод ВСЕХ метрик из бэкенда
+    if (res.data.__perf) {
+      console.log("%c===== BACKEND PERFORMANCE =====", "color: #00d5ff; font-size: 14px;");
+      console.log("MongoDB Find:", res.data.__perf.mongo);
+      console.log("Express Handler:", res.data.__perf.express);
+      console.log("Total Backend:", res.data.__perf.total);
+      console.log("Cache:", res.data.__perf.cache);
+    }
+
+    console.log("%c===== FRONTEND PERFORMANCE =====", "color: #ffcc00; font-size: 14px;");
+    console.log("Network latency:", perf.network);
 
   } catch (err) {
+    console.error("Ошибка:", err);
     console.timeEnd("BACKEND API");
     console.timeEnd("FRONTEND RENDER");
-    console.error("Ошибка при получении машин:", err);
-    setLoading(false);
+    console.timeEnd("TOTAL LOAD");
   }
 };
+
 
 
     const [showScrollTop, setShowScrollTop] = useState(false);
@@ -114,7 +134,7 @@ const scrollToTop = () => {
   requestAnimationFrame(animate);
 };
 
-    const fetchFavorites = async (userId) => {
+const fetchFavorites = async (userId) => {
       try {
         const res = await axios.get(`https://kcc-back.onrender.com/api/favorites/${userId}`);
         const favoriteCarIds = res.data
