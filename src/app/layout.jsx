@@ -14,7 +14,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-  <title>KCC Auto — Avtomobillər Satışı</title>
+  <title>KCC Auto</title>
 
   {/* === SEO META TAGS === */}
   <meta name="description" content="KCC Auto — Bakıda ən yaxşı vəziyyətdə avtomobillər. Kredit, barter, satış. Yoxlanmış maşınlar və münasib qiymətlər." />
