@@ -23,8 +23,6 @@ export default function RootLayout({ children }) {
 
   {/* OpenGraph (для Google, Facebook, Telegram) */}
   <meta property="og:title" content="KCC Auto" />
-  <meta property="og:description" content="Koreyadan avtomobil sifarişi.
-Resmi auksionlardan va daxili bazardan alış. Koreyada ödanişsiz texniki" />
   <meta property="og:image" content="https://res.cloudinary.com/dsigbmb7p/image/upload/v1759259467/logo_blank_c5xuyi.png" />
   <meta property="og:url" content="https://kccauto.az" />
   <meta property="og:type" content="website" />
